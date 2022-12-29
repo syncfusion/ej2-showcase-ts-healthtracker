@@ -8,6 +8,7 @@ import {
     AccumulationSelection, IMouseEventArgs, Chart, ColumnSeries, Category, Legend, Tooltip, ChartAnnotation, Index, indexFinder, PolarSeries,
     LineSeries, ChartTheme, Zoom, SplineSeries, SplineAreaSeries, AreaSeries, AccumulationTheme, StripLine, BubbleSeries, IAccLoadedEventArgs, DateTime, Logarithmic, Crosshair, IPointEventArgs, ILoadedEventArgs,
 } from '@syncfusion/ej2-charts';
+import { AppBar } from "@syncfusion/ej2-navigations";
 import { Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday } from './datasource';
 AccumulationChart.Inject(AccumulationSelection, AccumulationLegend, PieSeries, AccumulationDataLabel, AccumulationAnnotation, AccumulationTooltip, AccumulationSelection, ChartAnnotation);
 Chart.Inject(Selection, ColumnSeries, Selection, Zoom, SplineSeries, Category, Legend, Tooltip, ChartAnnotation, DateTime, Crosshair, PolarSeries);
@@ -21,6 +22,11 @@ export interface MyWindow extends Window {
     sleep: () => void;
 }
 
+
+let appbarObj = new AppBar({
+    cssClass: 'custom-appbar'
+});
+appbarObj.appendTo("#appbar");
 
 declare let window: MyWindow;
 
@@ -1174,7 +1180,6 @@ function InitializeWaterComponent(): void {
     linechartObj.appendTo('#balance');
     linechartObj.refresh();
 }
-
 function waterclick(): void {
     annotation = false;
     selectedpoint = false;
@@ -1223,12 +1228,12 @@ function waterclick(): void {
     document.getElementById("sleep-img").style.color = '#999393';
     document.getElementById("water-img").style.color = '#FFFFFF';
     document.getElementById("food-img").style.color = '#999393';
-    document.getElementById("title").innerHTML = 'Water Consumption <span id="watertitle-annotation1">Daily Average</span><span id="watertitle-annotation2">Target</span>';
-    document.getElementById("subtitle").innerHTML = '<span id="watersubtitle-annotation1">4.32 litres</span><span id="watersubtitle-annotation2">7 litres</span>'
-    document.getElementById("watersubtitle-annotation1").style.color = '#3B61E9';
-    document.getElementById("watersubtitle-annotation2").style.color = '#3B61E9';
+    document.getElementById('chart-header-title').innerHTML = '<p class="steps-ch-title" id="title"> Water Consumption </p>'
+    document.getElementById('total-value').innerHTML = '   <p class="water-total-title" id="title"> Target </p> <p class="water-st-today subtitle" id="chart-water-total-subtitle"> 7 litres </p>'
+    document.getElementById("average-value").innerHTML = '<p class="water-daily-avg-title" id="title"> Daily Average </p> <p class="water-st-daily-average subtitle" id="chart-water-average-subtitle"> 4.32 litres </p>'
+    document.getElementById('chart-water-total-subtitle').style.color = '#3B61E9'
+    document.getElementById('chart-water-average-subtitle').style.color = '#3B61E9'
 }
-
 function stepclick(): void {
     annotation = true;
     document.getElementById("step-bg").style.borderRadius = '4px';
@@ -1261,11 +1266,12 @@ function stepclick(): void {
     document.getElementById("sleep-img").style.color = '#999393';
     document.getElementById("water-img").style.color = '#999393';
     document.getElementById("food-img").style.color = '#999393';
-    document.getElementById("title").innerHTML = 'Steps Taken <span id="steptitle-annotation1">Distance Travelled</span>';
-    document.getElementById("subtitle").innerHTML = '<span id="stepsubtitle-annotation1" style="color: #05AD13;">3.2 miles</span>'
-    document.getElementById("pie-title").innerHTML = 'Today';
+	document.getElementById("pie-title").innerHTML = 'Today';
+	document.getElementById('chart-header-title').innerHTML = ' <p class="steps-ch-title" id="title"> Steps Taken </p>'
+	document.getElementById('total-value').innerHTML = '   <p class="steps-total-title" id="title"> Distance Travelled </p> <p class="steps-st-today subtitle" id="chart-steps-total-subtitle"> 3.2 miles </p>'
+	document.getElementById("average-value").innerHTML = ''
+	document.getElementById('chart-steps-total-subtitle').style.color = '#05AD13'
 }
-
 function sleepclick() {
     annotation = false;
     document.getElementById("sleep-bg").style.borderRadius = '4px';
@@ -1297,13 +1303,12 @@ function sleepclick() {
     document.getElementById("sleep-img").style.color = '#FFFFFF';
     document.getElementById("water-img").style.color = '#999393';
     document.getElementById("food-img").style.color = '#999393';
-    document.getElementById("title").innerHTML = 'Sleep Tracker <span id="sleeptitle-annotation1">Daily Average</span><span id="sleeptitle-annotation2">Goal</span>';
-    document.getElementById("subtitle").innerHTML = '<span id="sleepsubtitle-annotation1">6.32 hrs</span><span id="sleepsubtitle-annotation2">7.5 hrs</span>'
-    document.getElementById("sleepsubtitle-annotation1").style.color = '#4526A6';
-    document.getElementById("sleepsubtitle-annotation2").style.color = '#4526A6';
-
+    document.getElementById('chart-header-title').innerHTML = '<p class="sleep-ch-title" id="title"> Sleep Tracker </p>'
+    document.getElementById('total-value').innerHTML = '   <p class="sleep-total-title" id="title"> Goal </p> <p class="sleep-st-today subtitle" id="chart-sleep-total-subtitle"> 7.2 hrs </p>'
+    document.getElementById("average-value").innerHTML = '<p class="sleep-daily-avg-title" id="title"> Daily Average </p> <p class="sleep-st-daily-average subtitle" id="chart-sleep-average-subtitle"> 6.32 hrs </p>'
+    document.getElementById('chart-sleep-total-subtitle').style.color = '#4526A6'
+    document.getElementById('chart-sleep-average-subtitle').style.color = '#4526A6'
 }
-
 function caloriesclick() {
     annotation = false;
     document.getElementById("calories-bg").style.borderRadius = '4px';
@@ -1335,8 +1340,9 @@ function caloriesclick() {
     document.getElementById("sleep-img").style.color = '#999393';
     document.getElementById("water-img").style.color = '#999393';
     document.getElementById("food-img").style.color = '#FFFFFF';
-    document.getElementById("title").innerHTML = 'Calories Consumed <span id="caloriestitle-annotation1">Daily Average</span><span id="caloriestitle-annotation2">Today</span>';
-    document.getElementById("subtitle").innerHTML = '<span id="caloriessubtitle-annotation1" >902 kcal</span><span id="caloriessubtitle-annotation2">1437 kcal</span>'
-    document.getElementById("caloriessubtitle-annotation1").style.color = '#DB4247';
-    document.getElementById("caloriessubtitle-annotation2").style.color = '#780508';
+    document.getElementById('chart-header-title').innerHTML = '<p class="calories-ch-title" id="title"> Calories Consumed </p>'
+    document.getElementById('total-value').innerHTML = '<p class="calories-total-title" id="title"> Total </p><p class="calories-st-today subtitle" id="chart-calories-total-subtitle">1437 Kcal</p>'
+    document.getElementById("average-value").innerHTML = '<p class="calories-daily-avg-title" id="title"> Daily Average </p><p class="calories-st-daily-average subtitle" id="chart-calories-average-subtitle"> 902 Kcal </p>'
+    document.getElementById('chart-calories-total-subtitle').style.color = '#780508'
+    document.getElementById('chart-calories-average-subtitle').style.color = '#DB4247'
 }

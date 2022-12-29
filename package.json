@@ -1,7 +1,7 @@
 {
-    "name": "ej2-quickstart",
+    "name": "ej2-health-stat",
     "version": "0.0.1",
-    "description": "Essential JS 2 typescript quick start application",
+    "description": "Essential JS 2 typescript Health Stat showcase application",
     "author": "Syncfusion Inc.",
     "license": "SEE LICENSE IN license",
     "repository": {
@@ -18,7 +18,7 @@
         "gulp-typescript": "^2.13.0",
         "jasmine": "^2.6.0",
         "systemjs": "^0.20.14",
-        "typescript": "2.3.4"
+        "typescript": "^4.9.3"
     },
     "scripts": {
         "start": "gulp start",
