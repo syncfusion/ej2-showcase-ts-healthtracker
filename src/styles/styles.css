@@ -65,6 +65,7 @@
     width: 50px;
     height: 50px;
 }
+
 .image {
     position: absolute;
     background-repeat: no-repeat;
@@ -80,6 +81,7 @@
 #foodimg .icon-Food {
     float: right;
     color: #FFFFFF
+
 }
 #stepimg .icon-Steps {
     float: right;
@@ -534,6 +536,7 @@ letter-spacing: 0;
 #pie-title {
     padding-top: 10px;
 }
+
 @media (min-width: 768px)
 {
     .pie-chart,
@@ -596,10 +599,14 @@ letter-spacing: 0;
         width: 15vw;
     }
   }
+
 @media (min-width: 992px) {
     .col-md-2 {
         margin-left: 8%;
     }
+.line-chart{
+        margin-bottom: 16px;
+}
 }
 
 @media (max-width: 768px)
@@ -610,11 +617,10 @@ letter-spacing: 0;
 .line-chart{
     margin-bottom: 16px;
 }
-.column-chart-area .chart-container {
-    padding-left: 0;
-}
-}
 
+
+
+}
 @media only screen and (min-width: 1400px) and (max-width: 3400px) {
     #water50ml-column {
         margin-left: 20px !important;

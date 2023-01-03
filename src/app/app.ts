@@ -22,10 +22,8 @@ export interface MyWindow extends Window {
     sleep: () => void;
 }
 
-
-
 declare let window: MyWindow;
-let appbarObj: AppBar;
+
 let linechartObj: Chart;
 let pieChartObj: AccumulationChart;
 let annotationpie1: AccumulationChart;
@@ -35,7 +33,8 @@ let selectedpoint: boolean = false;
 export let category: string[] = [];
 InitializeCaloriesComponent()
 
-appbarObj = new AppBar({
+
+let appbarObj = new AppBar({
     cssClass: 'custom-appbar'
 });
 appbarObj.appendTo("#appbar");
@@ -1232,6 +1231,7 @@ function waterclick(): void {
     document.getElementById('total-value').innerHTML = '<span id="title-annotation"> Target </span><span id="value-annotation" style="color: #3B61E9;"> 7 litres </span>'
     document.getElementById("average-value").innerHTML = '<span id="title-annotation"> Daily Average </span><span id="value-annotation" style="color: #3B61E9;"> 4.32 litres </span>'
 }
+
 function stepclick(): void {
     annotation = true;
     document.getElementById("step-bg").style.borderRadius = '4px';
@@ -1264,11 +1264,12 @@ function stepclick(): void {
     document.getElementById("sleep-img").style.color = '#999393';
     document.getElementById("water-img").style.color = '#999393';
     document.getElementById("food-img").style.color = '#999393';
-	document.getElementById("pie-title").innerHTML = 'Today';
-	document.getElementById('chart-header-title').innerHTML = '<span id="chart-title"> Steps Taken </span>'
+    document.getElementById('chart-header-title').innerHTML = '<span id="chart-title"> Steps Taken </span>'
 	document.getElementById('total-value').innerHTML = '<span id="title-annotation"> Distance Travelled </span><span id="value-annotation" style="color:#05AD13"> 3.2 miles </span>'
 	document.getElementById("average-value").innerHTML = ''
+    document.getElementById("pie-title").innerHTML = 'Today';
 }
+
 function sleepclick() {
     annotation = false;
     document.getElementById("sleep-bg").style.borderRadius = '4px';
@@ -1303,7 +1304,9 @@ function sleepclick() {
     document.getElementById('chart-header-title').innerHTML = '<span id="chart-title"> Sleep Tracker </span>'
     document.getElementById('total-value').innerHTML = '<span id="title-annotation"> Goal </span><span id="value-annotation" style="color:#4526A6"> 7.2 hrs </span>'
     document.getElementById("average-value").innerHTML = '<span id="title-annotation"> Daily Average </span><span id="value-annotation" style="color:#4526A6"> 6.32 hrs </span>'
+
 }
+
 function caloriesclick() {
     annotation = false;
     document.getElementById("calories-bg").style.borderRadius = '4px';
