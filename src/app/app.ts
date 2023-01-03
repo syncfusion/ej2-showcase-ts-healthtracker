@@ -22,6 +22,7 @@ export interface MyWindow extends Window {
     sleep: () => void;
 }
 
+
 declare let window: MyWindow;
 
 let linechartObj: Chart;
@@ -1179,6 +1180,7 @@ function InitializeWaterComponent(): void {
     linechartObj.appendTo('#balance');
     linechartObj.refresh();
 }
+
 function waterclick(): void {
     annotation = false;
     selectedpoint = false;
