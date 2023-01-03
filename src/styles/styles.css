@@ -32,29 +32,27 @@
     height: auto;
     width: 100%;
     margin-bottom: 20px;
+    font-family: 'Roboto';
 }
 .e-avatar.custom-avatar{
     background-color: transparent;
-    font-size: 1.5rem;
-    margin: 0rem 1rem;
+    font-size: 14px;
+    margin: 0px 13px;
+}
+#appbar p {
+    margin: 0;
+    letter-spacing: 0;
 }
 .e-appbar.custom-appbar .appbar-title{
-    font-family: 'Roboto';
     font-weight: 300;
     font-size: 18px;
-    margin: 0;
     color: #1A1A1A;
-    letter-spacing: 0;
-    display:inline-block;
 }
 .e-appbar.custom-appbar .appbar-subtitle{
-    font-family: 'Roboto';
+    display: block;
     font-weight: 500;
     font-size: 15px;
-    margin: 0px;
     color: #535353;
-    letter-spacing: 0;
-    display: block;
 }
 .waitingpopup {
     position: absolute;
@@ -95,10 +93,6 @@
     float: right;
     color: #999393;
 }
-#calories-subtitle, #steps-subtitle, #water-subtitle, #sleep-subtitle{
-    width: calc(97% - 65px);
-    display: block;
-}
 #steps-text {
     font-family: 'Roboto';
     font-weight: 400;
@@ -116,10 +110,9 @@
 }
 #container {
     padding-bottom: 20px;
-    background: #FAFAFA !important;
+    background: #FAFAFA;
     box-shadow: 0 2px 7px 0 rgb(0 0 0 / 16%);
-    margin-right: 5px !important;
-    margin-left: 5px !important;
+    margin: 5px 5px 0px 5px;
 }
 #water-text {
     padding-left: 5%;
@@ -145,38 +138,33 @@
 #sleep-subtitle {
     padding-left: 5%;
 }
-#title, .subtitle {
+.chart-header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
     font-family: 'Roboto';
     letter-spacing: 0;
 }
-.subtitle {
+.chart-header-values{
+    display: flex;
+}
+.chart-header-values span {
+    display: block;
+}
+.chart-header #title-annotation {
+    font-weight: 300;
+    font-size: 12px;
+    color: #1A1A1A;
+    letter-spacing: 0;
+}
+.chart-header #value-annotation {
     font-size: 25px;
     font-weight: 700;
 }
-.calories-ch-title, .steps-ch-title, .water-ch-title, .sleep-ch-title {
+#chart-title {
     font-weight: 500;
     font-size: 20px;
     color: #535353;
-}
-.consumed-title {
-    font-weight: 500;
-    font-size: 20px;
-    color: #535353;
-}
-.calories-total-title{
-    font-weight: 300;
-    font-size: 15px;
-    color: #1A1A1A;
-}
-.calories-daily-avg-title {
-    font-weight: 300;
-    font-size: 15px;
-}
-.calories-st-today {
-    color: #780508;
-}
-.calories-st-daily-average {
-    color: #DB4247;
 }
 #caloriescontent {
     font-family: 'Roboto';
@@ -217,7 +205,7 @@
 .e-card {
     border-radius: 4px;
     cursor: pointer;
-    overflow: visible;
+    overflow: visible !important;
     margin-bottom: 20px;
     line-height: 1.42857143;
 }
@@ -453,9 +441,7 @@ letter-spacing: 0;
     box-shadow: 0 1px 4px 1px rgba(102,56,185,0.30) !important;
 }
 #chart {
-    margin-left: 3% !important;
-    margin-right: 0.5%;
-    padding-right: 0.75%;
+    margin:0% 3% !important;
 }
 #water50ml-column {
     width: 22%;
@@ -548,80 +534,54 @@ letter-spacing: 0;
 #pie-title {
     padding-top: 10px;
 }
-.chart-header{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}
-.chart-header-values{
-    display: flex;
-}
-.chart-header-values div{
-    margin: 0px 10px;
-}
 @media (min-width: 768px)
 {
-    .page-title{
-        display:inline-block;
-    }
     .pie-chart,
     .column-chart,
     .line-chart{
         margin-bottom: 16px;
     }
-    .line-column-chart{
-        margin-bottom: 1.8rem;
-    }
-    .card{
-        margin-bottom: 20px;
-    }
 }
 @media only screen and (max-width:375px)
 {
     #Break-text, #Lunch-text, #Dinner-text, #Snack-text {
-        font-size: 12px !important;
+        font-size: 12px;
     }
     #Breakfast, #Lunch, #Snack, #Dinner{
-        font-size: 38px !important;
+        font-size: 38px;
     }
 }
 @media only screen and (max-width:300px)
 {
     .column-chart-area{
-        margin-top: 40px !important;
+        margin-top: 40px;
     }
 }
 
-@media only screen and (min-width: 213px) and (max-width: 514px) {
+@media only screen and (min-width: 200px) and (max-width: 514px) {
     /* For portrait layouts only */
-    .e-avatar.custom-avatar{
-        font-size: 1.2rem;
+    #calories-column, #step-column, #water-column, #sleep-column {
+        width: 100% !important;
+        padding: 0px 15px !important;
+    }
+    #card-row {
+        margin: 0;
     }
     .e-appbar.custom-appbar .appbar-title {
         font-size: 15px;
     }
     .e-appbar.custom-appbar .appbar-subtitle {
-        font-size: 12px;
-    }
-    #calories-subtitle, #steps-subtitle, #water-subtitle, #sleep-subtitle {
-        width: calc(97% - 65px);
-    }
-    .card-block {
-        min-height: 170px !important;
+        display: none;
     }
     .chart-header{
         flex-wrap: wrap;
     }
-    .chart-header-title {
+    #chart-header-title {
         margin: auto;
     }
     .chart-header-values{
         width: 100%;
         justify-content: space-evenly;
-    }
-    #title span {
-        display: block;
-        float: right;
     }
     .stepsimg {
         width: 15vw;
@@ -650,105 +610,13 @@ letter-spacing: 0;
 .line-chart{
     margin-bottom: 16px;
 }
-
-
-.line-column-chart{
-   margin-bottom: 1.8rem;
+.column-chart-area .chart-container {
+    padding-left: 0;
 }
-
-}
-@media (max-width: 768px) {
-    .column-chart-area .chart-container {
-        padding-left: 0;
-    }
-    .card {
-        margin-bottom: 20px;
-        width: 100%;
-    }
 }
 
 @media only screen and (min-width: 1400px) and (max-width: 3400px) {
     #water50ml-column {
         margin-left: 20px !important;
-    }
-    #watersubtitle-annotation1 {
-        font-family: 'Roboto';
-        font-weight: 700;
-        font-size: 26px;
-        color: #DB4247;
-        letter-spacing: 0;
-        margin-top: -20px;
-        margin-right: 9%;
-    }
-    #watersubtitle-annotation2 {
-        font-family: 'Roboto';
-        font-weight: 700;
-        font-size: 26px;
-        color: #780508;
-        letter-spacing: 0;
-        margin-top: -20px;
-        margin-right: 4%;
-    }
-    #caloriessubtitle-annotation1 {
-        font-family: 'Roboto';
-        font-weight: 700;
-        font-size: 26px;
-        color: #DB4247;
-        letter-spacing: 0;
-        margin-top: -20px;
-        margin-right: 9%;
-    }
-    #caloriessubtitle-annotation2 {
-        font-family: 'Roboto';
-        font-weight: 700;
-        font-size: 26px;
-        color: #780508;
-        letter-spacing: 0;
-        margin-top: -20px;
-        margin-right: 6%;
-    }
-    #sleepsubtitle-annotation1 {
-        font-family: 'Roboto';
-        font-weight: 700;
-        font-size: 28px;
-        color: #DB4247;
-        letter-spacing: 0;
-        margin-top: -20px;
-        margin-right: 8.5%;
-    }
-    #sleepsubtitle-annotation2 {
-        font-family: 'Roboto';
-        font-weight: 700;
-        font-size: 28px;
-        color: #780508;
-        letter-spacing: 0;
-        margin-top: -20px;
-        margin-right: 4%;
-    }
-    #caloriestitle-annotation2 {
-        font-family: 'Roboto';
-        font-weight: 300;
-        font-size: 12px;
-        color: #1A1A1A;
-        letter-spacing: 0;
-        margin-right: 16% !important;
-    }
-    #watertitle-annotation2 {
-        font-family: 'Roboto';
-        font-weight: 300;
-        font-size: 12px;
-        color: #1A1A1A;
-        letter-spacing: 0;
-        padding-left: 1.5% !important;
-        margin-right: 11.5%;
-    }
-    #sleeptitle-annotation2 {
-        font-family: 'Roboto';
-        font-weight: 300;
-        font-size: 12px;
-        color: #1A1A1A;
-        letter-spacing: 0;
-        padding-left: 1.5% !important;
-        margin-right: 13% !important;
     }
 }

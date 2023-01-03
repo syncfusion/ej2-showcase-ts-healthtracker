@@ -23,13 +23,9 @@ export interface MyWindow extends Window {
 }
 
 
-let appbarObj = new AppBar({
-    cssClass: 'custom-appbar'
-});
-appbarObj.appendTo("#appbar");
 
 declare let window: MyWindow;
-
+let appbarObj: AppBar;
 let linechartObj: Chart;
 let pieChartObj: AccumulationChart;
 let annotationpie1: AccumulationChart;
@@ -39,7 +35,10 @@ let selectedpoint: boolean = false;
 export let category: string[] = [];
 InitializeCaloriesComponent()
 
-
+appbarObj = new AppBar({
+    cssClass: 'custom-appbar'
+});
+appbarObj.appendTo("#appbar");
 // tslint:disable-next-line:max-func-body-length
 function InitializeCaloriesComponent(): void {
     interface Result {
@@ -308,7 +307,7 @@ function InitializeCaloriesComponent(): void {
                 pieChartObj.series[0].dataSource = (<{ Snack: Object[] }>Sunday[0]).Snack;
             }
             document.getElementById("water").onclick = function () {
-                document.getElementById("title").innerHTML = 'Water Consumption';
+                document.getElementById("chart-title").innerHTML = 'Water Consumption';
                 document.getElementById("pie-title").innerHTML = 'Sunday Report';
                 document.getElementById("calories-subtitle").style.color = '#828282';
                 document.getElementById("calories-text").style.color = '#828282';
@@ -318,7 +317,7 @@ function InitializeCaloriesComponent(): void {
                 InitializeWaterComponent();
             };
             document.getElementById("step").onclick = function () {
-                document.getElementById("title").innerHTML = 'Steps Count';
+                document.getElementById("chart-title").innerHTML = 'Steps Count';
                 document.getElementById("pie-title").innerHTML = 'Sunday Activity';
                 document.getElementById("calories-subtitle").style.color = '#828282';
                 document.getElementById("calories-text").style.color = '#828282';
@@ -329,6 +328,7 @@ function InitializeCaloriesComponent(): void {
                 InitializeStepsComponent();
             };
             document.getElementById("sleep").onclick = function () {
+                document.getElementById("chart-title").innerHTML = 'Sleep Tracker';
                 document.getElementById("pie-title").innerHTML = 'Sleep Quality';
                 document.getElementById("calories-subtitle").style.color = '#828282';
                 document.getElementById("calories-text").style.color = '#828282';
@@ -338,7 +338,7 @@ function InitializeCaloriesComponent(): void {
                 InitializeSleepComponent();
             };
             document.getElementById("calories").onclick = function () {
-                document.getElementById("title").innerHTML = 'Calories Consumed';
+                document.getElementById("chart-title").innerHTML = 'Calories Consumed';
                 document.getElementById("pie-title").innerHTML = 'Macro Nutrients';
                 document.getElementById("calories-subtitle").style.color = '#FFFFFF';
                 document.getElementById("calories-text").style.color = '#FFFFFF';
@@ -585,7 +585,7 @@ function InitializeStepsComponent(): void {
                 InitializeWaterComponent();
             };
             document.getElementById("step").onclick = function () {
-                document.getElementById("title").innerHTML = 'Steps Count';
+                document.getElementById("chart-title").innerHTML = 'Steps Count';
                 document.getElementById("pie-title").innerHTML = 'Sunday Activity';
                 document.getElementById("steps-subtitle").style.color = '#FFFFFF';
                 document.getElementById("steps-text").style.color = '#FFFFFF';
@@ -593,7 +593,7 @@ function InitializeStepsComponent(): void {
                 InitializeStepsComponent();
             };
             document.getElementById("sleep").onclick = function () {
-                document.getElementById("title").innerHTML = 'Sleep Tracker';
+                document.getElementById("chart-title").innerHTML = 'Sleep Tracker';
                 document.getElementById("pie-title").innerHTML = 'Sleep Quality';
                 document.getElementById("steps-subtitle").style.color = '#828282';
                 document.getElementById("steps-text").style.color = '#828282';
@@ -603,7 +603,7 @@ function InitializeStepsComponent(): void {
                 InitializeSleepComponent();
             };
             document.getElementById("calories").onclick = function () {
-                document.getElementById("title").innerHTML = 'Calories Consumed';
+                document.getElementById("chart-title").innerHTML = 'Calories Consumed';
                 document.getElementById("pie-title").innerHTML = 'Macro Nutrients';
                 document.getElementById("steps-subtitle").style.color = '#828282';
                 document.getElementById("steps-text").style.color = '#828282';
@@ -832,7 +832,7 @@ function InitializeSleepComponent(): void {
                 InitializeWaterComponent();
             };
             document.getElementById("step").onclick = function () {
-                document.getElementById("title").innerHTML = 'Steps Count';
+                document.getElementById("chart-title").innerHTML = 'Steps Count';
                 document.getElementById("pie-title").innerHTML = 'Sunday Activity';
                 document.getElementById("sleep-subtitle").style.color = '#828282';
                 document.getElementById("sleep-text").style.color = '#828282';
@@ -842,7 +842,7 @@ function InitializeSleepComponent(): void {
                 InitializeStepsComponent();
             };
             document.getElementById("sleep").onclick = function () {
-                document.getElementById("title").innerHTML = 'Sleep Tracker';
+                document.getElementById("chart-title").innerHTML = 'Sleep Tracker';
                 document.getElementById("pie-title").innerHTML = 'Sleep Quality';
                 document.getElementById("sleep-subtitle").style.color = '#FFFFFF';
                 document.getElementById("sleep-text").style.color = '#FFFFFF';
@@ -850,7 +850,7 @@ function InitializeSleepComponent(): void {
                 InitializeSleepComponent();
             };
             document.getElementById("calories").onclick = function () {
-                document.getElementById("title").innerHTML = 'Calories Consumed';
+                document.getElementById("chart-title").innerHTML = 'Calories Consumed';
                 document.getElementById("pie-title").innerHTML = 'Macro Nutrients';
                 document.getElementById("sleep-subtitle").style.color = '#828282';
                 document.getElementById("sleep-text").style.color = '#828282';
@@ -1142,7 +1142,7 @@ function InitializeWaterComponent(): void {
                 InitializeWaterComponent();
             };
             document.getElementById("step").onclick = function () {
-                document.getElementById("title").innerHTML = 'Steps Count';
+                document.getElementById("chart-title").innerHTML = 'Steps Count';
                 document.getElementById("pie-title").innerHTML = 'Sunday Activity';
                 document.getElementById("water-subtitle").style.color = '#828282';
                 document.getElementById("water-text").style.color = '#828282';
@@ -1152,7 +1152,7 @@ function InitializeWaterComponent(): void {
                 InitializeStepsComponent();
             };
             document.getElementById("sleep").onclick = function () {
-                document.getElementById("title").innerHTML = 'Sleep Tracker';
+                document.getElementById("chart-title").innerHTML = 'Sleep Tracker';
                 document.getElementById("pie-title").innerHTML = 'Sleep Quality';
                 document.getElementById("water-subtitle").style.color = '#828282';
                 document.getElementById("water-text").style.color = '#828282';
@@ -1166,7 +1166,7 @@ function InitializeWaterComponent(): void {
                 document.getElementById("donut").style.display = 'block';
                 document.getElementById("semi-pie").style.display = 'none';
                 document.getElementById("polar").style.display = 'none';
-                document.getElementById("title").innerHTML = 'Calories Consumed';
+                document.getElementById("chart-title").innerHTML = 'Calories Consumed';
                 document.getElementById("pie-title").innerHTML = 'Macro Nutrients';
                 document.getElementById("water-subtitle").style.color = '#828282';
                 document.getElementById("water-text").style.color = '#828282';
@@ -1228,11 +1228,9 @@ function waterclick(): void {
     document.getElementById("sleep-img").style.color = '#999393';
     document.getElementById("water-img").style.color = '#FFFFFF';
     document.getElementById("food-img").style.color = '#999393';
-    document.getElementById('chart-header-title').innerHTML = '<p class="steps-ch-title" id="title"> Water Consumption </p>'
-    document.getElementById('total-value').innerHTML = '   <p class="water-total-title" id="title"> Target </p> <p class="water-st-today subtitle" id="chart-water-total-subtitle"> 7 litres </p>'
-    document.getElementById("average-value").innerHTML = '<p class="water-daily-avg-title" id="title"> Daily Average </p> <p class="water-st-daily-average subtitle" id="chart-water-average-subtitle"> 4.32 litres </p>'
-    document.getElementById('chart-water-total-subtitle').style.color = '#3B61E9'
-    document.getElementById('chart-water-average-subtitle').style.color = '#3B61E9'
+    document.getElementById('chart-header-title').innerHTML = '<span id="chart-title"> Water Consumption </span>'
+    document.getElementById('total-value').innerHTML = '<span id="title-annotation"> Target </span><span id="value-annotation" style="color: #3B61E9;"> 7 litres </span>'
+    document.getElementById("average-value").innerHTML = '<span id="title-annotation"> Daily Average </span><span id="value-annotation" style="color: #3B61E9;"> 4.32 litres </span>'
 }
 function stepclick(): void {
     annotation = true;
@@ -1267,10 +1265,9 @@ function stepclick(): void {
     document.getElementById("water-img").style.color = '#999393';
     document.getElementById("food-img").style.color = '#999393';
 	document.getElementById("pie-title").innerHTML = 'Today';
-	document.getElementById('chart-header-title').innerHTML = ' <p class="steps-ch-title" id="title"> Steps Taken </p>'
-	document.getElementById('total-value').innerHTML = '   <p class="steps-total-title" id="title"> Distance Travelled </p> <p class="steps-st-today subtitle" id="chart-steps-total-subtitle"> 3.2 miles </p>'
+	document.getElementById('chart-header-title').innerHTML = '<span id="chart-title"> Steps Taken </span>'
+	document.getElementById('total-value').innerHTML = '<span id="title-annotation"> Distance Travelled </span><span id="value-annotation" style="color:#05AD13"> 3.2 miles </span>'
 	document.getElementById("average-value").innerHTML = ''
-	document.getElementById('chart-steps-total-subtitle').style.color = '#05AD13'
 }
 function sleepclick() {
     annotation = false;
@@ -1303,11 +1300,9 @@ function sleepclick() {
     document.getElementById("sleep-img").style.color = '#FFFFFF';
     document.getElementById("water-img").style.color = '#999393';
     document.getElementById("food-img").style.color = '#999393';
-    document.getElementById('chart-header-title').innerHTML = '<p class="sleep-ch-title" id="title"> Sleep Tracker </p>'
-    document.getElementById('total-value').innerHTML = '   <p class="sleep-total-title" id="title"> Goal </p> <p class="sleep-st-today subtitle" id="chart-sleep-total-subtitle"> 7.2 hrs </p>'
-    document.getElementById("average-value").innerHTML = '<p class="sleep-daily-avg-title" id="title"> Daily Average </p> <p class="sleep-st-daily-average subtitle" id="chart-sleep-average-subtitle"> 6.32 hrs </p>'
-    document.getElementById('chart-sleep-total-subtitle').style.color = '#4526A6'
-    document.getElementById('chart-sleep-average-subtitle').style.color = '#4526A6'
+    document.getElementById('chart-header-title').innerHTML = '<span id="chart-title"> Sleep Tracker </span>'
+    document.getElementById('total-value').innerHTML = '<span id="title-annotation"> Goal </span><span id="value-annotation" style="color:#4526A6"> 7.2 hrs </span>'
+    document.getElementById("average-value").innerHTML = '<span id="title-annotation"> Daily Average </span><span id="value-annotation" style="color:#4526A6"> 6.32 hrs </span>'
 }
 function caloriesclick() {
     annotation = false;
@@ -1340,9 +1335,7 @@ function caloriesclick() {
     document.getElementById("sleep-img").style.color = '#999393';
     document.getElementById("water-img").style.color = '#999393';
     document.getElementById("food-img").style.color = '#FFFFFF';
-    document.getElementById('chart-header-title').innerHTML = '<p class="calories-ch-title" id="title"> Calories Consumed </p>'
-    document.getElementById('total-value').innerHTML = '<p class="calories-total-title" id="title"> Total </p><p class="calories-st-today subtitle" id="chart-calories-total-subtitle">1437 Kcal</p>'
-    document.getElementById("average-value").innerHTML = '<p class="calories-daily-avg-title" id="title"> Daily Average </p><p class="calories-st-daily-average subtitle" id="chart-calories-average-subtitle"> 902 Kcal </p>'
-    document.getElementById('chart-calories-total-subtitle').style.color = '#780508'
-    document.getElementById('chart-calories-average-subtitle').style.color = '#DB4247'
+    document.getElementById('chart-header-title').innerHTML = '<span id="chart-title"> Calories Consumed </span>'
+    document.getElementById('total-value').innerHTML = '<span id="title-annotation"> Total </span><span id="value-annotation" style="color:#780508">1437 Kcal</span>'
+    document.getElementById("average-value").innerHTML = '<span id="title-annotation"> Daily Average </span><span id="value-annotation" style="color:#DB4247"> 902 Kcal </span>'
 }

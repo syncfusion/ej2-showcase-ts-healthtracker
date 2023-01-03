@@ -8,7 +8,8 @@
     <meta name="description" content="Essential JS 2" />
     <meta name="author" content="Syncfusion" />
     <link rel="shortcut icon" href="resources/favicon.ico" />
-    <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i" 
+    rel="stylesheet">
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
     <!--style reference from node_modules/@syncfusion/ej2/-->
     <link href="./styles/styles.css" rel="stylesheet" />
@@ -21,8 +22,12 @@
     <div id="container" style=" background: #FAFAFA;">
         <!-- Appbar area -->
         <div id="appbar">
-            <div class="appbar-content"><span class="e-avatar custom-avatar e-avatar-circle"><img src="../../icons/Healthstat.png"></span><p class="appbar-title"> Health <b>Stat</b> </p>
-                <div class="e-appbar-spacer"></div><p class="appbar-subtitle"> Hi, John Smith </p><span class="e-avatar custom-avatar e-avatar-circle"><img src="../../icons/Profile_.png"></span>
+            <div>
+                <span class="e-avatar custom-avatar e-avatar-circle"><img src="../../icons/Healthstat.png"></span>
+                <p class="appbar-title"> Health <b>Stat</b> </p>
+                <div class="e-appbar-spacer"></div>
+                <p class="appbar-subtitle"> Hi, John Smith </p>
+                <span class="e-avatar custom-avatar e-avatar-circle"><img src="../../icons/Profile_.png"></span>
             </div>
         </div>
         <!-- Card area -->
@@ -33,8 +38,11 @@
                     <div class="e-card" id="calories" style="max-width: 445px; background-image: linear-gradient(45deg, #F23B3B 0%, #EF9027 100%)">
                         <div class="expense-card" id="calories-bg" style=" background-image: linear-gradient(45deg, #F23B3B 0%, #EF9027 100%); border-radius: 4px">
                             <div class="card-block" id="caloriescard" style="box-shadow: 0 3px 6px 2px rgba(178,30,195,0.30);">
-                                    <div class="media-body" id="calories-value" style="max-width: 445px; background-image: linear-gradient(45deg, #F23B3B 0%, #EF9027 100%); border-radius: 4px"><h3 class="card-value" id="calories-text" style="color: #FFFFFF">13,100</h3>
-                                        <div id="foodimg"><span class="card-text" id="calories-subtitle" style="color: #FFFFFF">Calories Eaten</span><span id="food-img" class="icon-Food" style="font-size: 65px; margin-right: 3%; margin-bottom: 2% "></span></div>
+                                    <div class="media-body" id="calories-value" style="max-width: 445px; background-image: linear-gradient(45deg, #F23B3B 0%, #EF9027 100%); border-radius: 4px">
+                                        <h3 class="card-value" id="calories-text" style="color: #FFFFFF">13,100</h3>
+                                        <div id="foodimg">
+                                            <span class="card-text" id="calories-subtitle" style="color: #FFFFFF">Calories Eaten</span><span id="food-img" class="icon-Food" style="font-size: 65px; margin-right: 3%; margin-bottom: 2% "></span>
+                                        </div>
                                     </div>
                             </div>
                         </div>
@@ -44,8 +52,11 @@
                     <div class="e-card" id="step" style="max-width: 445px; ">
                         <div class="income-card" id="step-bg">
                             <div class="card-block" id="stepcard">
-                                    <div class="media-body" id="steps-value" style="max-width: 445px; background-image: null; border-radius: 4px"><h3 class="card-value" id="steps-text">52,100</h3>
-                                        <div id="stepimg"><span class="card-text" id="steps-subtitle">Steps Taken</span><span id="steps-img" class="icon-Steps" style="font-size: 65px; margin-right: 3%; margin-bottom: 2%"></span></div>
+                                    <div class="media-body" id="steps-value" style="max-width: 445px; background-image: null; border-radius: 4px">
+                                        <h3 class="card-value" id="steps-text">52,100</h3>
+                                        <div id="stepimg">
+                                            <span class="card-text" id="steps-subtitle">Steps Taken</span><span id="steps-img" class="icon-Steps" style="font-size: 65px; margin-right: 3%; margin-bottom: 2%"></span>
+                                        </div>
                                     </div>
                             </div>
                         </div>
@@ -55,8 +66,11 @@
                     <div class="e-card" id="water" style="max-width: 445px;">
                         <div class="balance" id="water-bg">
                             <div class="card-block" id="watercard" style="max-width: 445px;">
-                                    <div class="media-body" id="water-value" style="max-width: 445px; background-image: null; border-radius: 4px"><h3 class="card-value" id="water-text">38.7 ltr</h3>
-                                        <div id="waterimg"><span class="card-text" id="water-subtitle">Water Consumed</span><span id="water-img" class="icon-Water" style="font-size: 65px; margin-right: 3%; margin-bottom: 2%"></span></div>
+                                    <div class="media-body" id="water-value" style="max-width: 445px; background-image: null; border-radius: 4px">
+                                        <h3 class="card-value" id="water-text">38.7 ltr</h3>
+                                        <div id="waterimg">
+                                            <span class="card-text" id="water-subtitle">Water Consumed</span><span id="water-img" class="icon-Water" style="font-size: 65px; margin-right: 3%; margin-bottom: 2%"></span>
+                                        </div>
                                     </div>
                             </div>
                         </div>
@@ -66,8 +80,11 @@
                     <div class="e-card" id="sleep" style="max-width: 445px;">
                         <div class="transaction" id="sleep-bg">
                             <div class="card-block" id="sleepcard" style="max-width: 445px;">
-                                    <div class="media-body" id="sleep-value" style="max-width: 445px; background-image: null; border-radius: 4px"><h3 class="card-value" id="sleep-text" style="font-family: 'Roboto'; font-weight:400; color: #727272;">50 hr</h3>
-                                        <div id="sleepimg"><span class="card-text" id="sleep-subtitle">Sleep Duration</span><span id="sleep-img" class="icon-Sleep" style="font-size: 65px; margin-right: 4%; margin-bottom: 2%"></span></div>
+                                    <div class="media-body" id="sleep-value" style="max-width: 445px; background-image: null; border-radius: 4px">
+                                        <h3 class="card-value" id="sleep-text" style="font-family: 'Roboto'; font-weight:400; color: #727272;">50 hr</h3>
+                                        <div id="sleepimg">
+                                            <span class="card-text" id="sleep-subtitle">Sleep Duration</span><span id="sleep-img" class="icon-Sleep" style="font-size: 65px; margin-right: 4%; margin-bottom: 2%"></span>
+                                        </div>
                                     </div>
                             </div>
                         </div>
@@ -81,10 +98,16 @@
                 <div class="col-sm-12 col-md-8" style="height: 530px; background:transparent">
                     <div class="chart-padding" id="line">
                         <div class="chart-header">
-                            <div class="chart-header-title" id="chart-header-title"><p class="calories-ch-title" id="title"> Calories Consumed </p></div>
+                            <div id="chart-header-title"><p id="chart-title">Calories Consumed</p></div>
                             <div class="chart-header-values">
-                                <div class="total-value" id="total-value"><p class="calories-total-title" id="title"> Total </p><p class="calories-st-today subtitle" id="chart-calories-total-subtitle"> 1437 Kcal </p></div>
-                                <div class="average-value" id="average-value"><p class="calories-daily-avg-title" id="title"> Daily Average </p><p class="calories-st-daily-average subtitle" id="chart-calories-average-subtitle"> 902 Kcal </p></div>
+                                <div id="total-value" style="margin: 0px 10px;">
+                                    <span id="title-annotation"> Total </span>
+                                    <span id="value-annotation" style="color: #780508;"> 1437 Kcal </span>
+                                </div>
+                                <div id="average-value" style="margin: 0px 10px;">
+                                    <span id="title-annotation"> Daily Average </span>
+                                    <span id="value-annotation" style="color: #DB4247;"> 902 Kcal </span>
+                                </div>
                             </div>
                         </div>
                         <div id="balance" class="line-chart" style="width: 100%; height:400px;  background: transparent;"></div>
@@ -97,8 +120,7 @@
                         <div class="chart-padding" id="pie">
                             <div id="donut" style="display: block; height: 530px;">
                                 <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9" id="pie" style=" padding: 0px;">
-                                    <div id="pie-title" style=" padding-top: 20px; margin-bottom: 6px; cursor: default; margin-left: 20px; font-family: Roboto;  font-weight: 500; font-size: 20px; text-align: left; color: #1A1A1A">Sunday
-                                        Activity</div>
+                                    <div id="pie-title" style=" padding-top: 20px; margin-bottom: 6px; cursor: default; margin-left: 20px; font-family: Roboto;  font-weight: 500; font-size: 20px; text-align: left; color: #1A1A1A">Macro Nutrients</div>
                                     <div class="column-chart" id="account-balance" style="height: 268px; margin-bottom: 0px"></div>
                                     <div class="row" style=" height: 38px; margin-bottom: 20px; cursor: default">
                                         <div class="col-xs-6 col-sm-6 col-md-6" style="padding: 0px; height: 31px; font-family: Roboto;  font-weight: 500; font-size: 14px; color: #2F2F2F; letter-spacing: -0.05px;"><img
