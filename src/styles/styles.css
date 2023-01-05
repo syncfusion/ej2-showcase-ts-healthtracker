@@ -109,6 +109,22 @@
     margin-right: 0px !important;
     margin-left: 0px !important;
 }
+#leftcontent {
+    font-family: 'Roboto';
+    font-weight: 400;
+    font-size: 14px;
+    color: #485465;
+    letter-spacing: -0.08px;
+    text-align: center;
+}
+#rightcontent {
+    font-family: 'Roboto';
+    font-weight: 400;
+    font-size: 14px;
+    color: #485465;
+    letter-spacing: -0.08px;
+    text-align: center;
+}
 #container {
     padding-bottom: 20px;
     background: #FAFAFA;
@@ -174,6 +190,24 @@
     color: #4A4A4A;
     letter-spacing: -0.07px;
 }
+#time {
+    font-family: 'Roboto';
+    font-weight: 500;
+    font-weight: 500;
+    font-size: 49px;
+    color: #4A4A4A;
+    letter-spacing: -0.08px;
+    text-align: center;
+    height: 59px
+}
+#middlecontent {
+    font-family: 'Roboto';
+    font-weight: 500;
+    font-size: 14px;
+    color: #4A4A4A;
+    letter-spacing: -0.08px;
+    text-align: center;
+}
 #chart-rightarea {
     background: #FFFFFF;
     box-shadow: 0 1px 4px 1px rgba(0,0,0,0.10);
@@ -203,11 +237,14 @@
 #sleep-bg:hover {
     background-image: 'linear-gradient(to right, #FCDE72 , #F26D6D)';
 }
+.hidden-element-size {
+    visibility: hidden;
+    position: absolute !important;
+}
 .e-card {
     border-radius: 4px;
     cursor: pointer;
     overflow: visible !important;
-    margin-bottom: 20px;
     line-height: 1.42857143;
 }
 .card-block {
@@ -531,6 +568,32 @@ letter-spacing: 0;
     font-size: 16px;
     color: #2250D4 !important;
     letter-spacing: 0;
+}
+#value {
+    font-family: 'Roboto';
+    font-weight: 400;
+    font-size: 40px;
+    color: #F24C37;
+    letter-spacing: 0.86px;
+    text-align: center;
+    line-height: 25.92px;
+}
+#sub-value {
+    font-family: 'Roboto';
+    font-weight: 400;
+font-size: 14px;
+color: #F24C37;
+letter-spacing: 0;
+text-align: center;
+margin-bottom: 0px;
+}
+#end-value {
+    font-family: 'Roboto';
+    font-weight: 400;
+font-size: 14px;
+color: #4A4A4A;
+letter-spacing: 0;
+text-align: center;
 }
 #pie-title {
     padding-top: 10px;

@@ -1,7 +1,7 @@
 /**
  * Dashboard handler
  */
-import { isNullOrUndefined as isNOU, EmitType } from '@syncfusion/ej2-base';
+import { isNullOrUndefined as isNOU, EmitType, addClass, removeClass } from '@syncfusion/ej2-base';
 import {
     Selection, SelectionMode,
     AccumulationAnnotation, IAccResizeEventArgs, AccumulationChart, AccumulationLegend, PieSeries, AccumulationDataLabel, AccumulationTooltip, getElement,
@@ -9,6 +9,7 @@ import {
     LineSeries, ChartTheme, Zoom, SplineSeries, SplineAreaSeries, AreaSeries, AccumulationTheme, StripLine, BubbleSeries, IAccLoadedEventArgs, DateTime, Logarithmic, Crosshair, IPointEventArgs, ILoadedEventArgs,
 } from '@syncfusion/ej2-charts';
 import { AppBar } from "@syncfusion/ej2-navigations";
+import { Skeleton } from '@syncfusion/ej2-notifications';
 import { Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday } from './datasource';
 AccumulationChart.Inject(AccumulationSelection, AccumulationLegend, PieSeries, AccumulationDataLabel, AccumulationAnnotation, AccumulationTooltip, AccumulationSelection, ChartAnnotation);
 Chart.Inject(Selection, ColumnSeries, Selection, Zoom, SplineSeries, Category, Legend, Tooltip, ChartAnnotation, DateTime, Crosshair, PolarSeries);
@@ -32,6 +33,8 @@ let annotationpie2: AccumulationChart;
 let annotation: boolean = true;
 let selectedpoint: boolean = false;
 export let category: string[] = [];
+InitializeSkeleton();
+loadCardComponent();
 InitializeCaloriesComponent()
 
 
@@ -39,6 +42,76 @@ let appbarObj = new AppBar({
     cssClass: 'custom-appbar'
 });
 appbarObj.appendTo("#appbar");
+function InitializeSkeleton(): void {
+    document.querySelectorAll('.e-card').forEach((card: HTMLElement) => {
+        addClass([card], "hidden-element-size")
+    })
+    const cardElement: HTMLElement = document.querySelector('.e-card.hidden-element-size') as HTMLElement
+    let calorieSkeleton: Skeleton = new Skeleton({
+        width: '100%',
+        height: cardElement.offsetHeight,
+        shimmerEffect: 'Wave'
+    })
+    calorieSkeleton.appendTo('#calorie-skeleton')
+    let stepSkeleton: Skeleton = new Skeleton({
+        width: '100%',
+        height: cardElement.offsetHeight,
+        shimmerEffect: 'Wave'
+    })
+    stepSkeleton.appendTo('#steps-skeleton')
+    let waterSkeleton: Skeleton = new Skeleton({
+        width: '100%',
+        height: cardElement.offsetHeight,
+        shimmerEffect: 'Wave'
+    })
+    waterSkeleton.appendTo('#water-skeleton')
+    let sleepSkeleton: Skeleton = new Skeleton({
+        width: '100%',
+        height: cardElement.offsetHeight,
+        shimmerEffect: 'Wave'
+    })
+    sleepSkeleton.appendTo('#sleep-skeleton')
+    let lineChartSkeleton: Skeleton = new Skeleton({
+        width: '100%',
+        height: '100%',
+        shimmerEffect: 'Wave'
+    })
+    lineChartSkeleton.appendTo('#line-chart-skeleton')
+    let pieChartSkeleton: Skeleton = new Skeleton({
+        width: '100%',
+        height: '100%',
+        shimmerEffect: 'Wave'
+    })
+    pieChartSkeleton.appendTo('#pie-chart-skeleton')
+}
+function getCardData(): any {
+    return new Promise(resolve => setTimeout(() => {
+        let data: { [key: string]: Object } = {};
+        data['calories-eaten'] = '13,100'
+        data['steps-taken'] = '52,100'
+        data['water-consumed'] = '38.7 ltr'
+        data['sleep-duration'] = '50 hr'
+        resolve(data)
+    }, 2000))
+}
+function loadCardComponent(): void {
+    getCardData().then((data: any) => {
+        document.querySelectorAll('.card-skeleton').forEach((elem: HTMLElement) => elem.style.display = 'none');
+        (document.getElementById('line-chart-skeleton') as HTMLElement).style.display = 'none';
+        (document.getElementById('pie-chart-skeleton') as HTMLElement).style.display = 'none';
+        document.getElementById('calories-text').textContent = data['calories-eaten']
+        document.getElementById('steps-text').textContent = data['steps-taken']
+        document.getElementById('water-text').textContent = data['water-consumed']
+        document.getElementById('sleep-text').textContent = data['sleep-duration']
+        document.querySelectorAll('.e-card').forEach((elem: HTMLElement) => {
+            removeClass([elem], "hidden-element-size")
+        });
+        (document.getElementById('line') as HTMLElement).style.display = 'block';
+        linechartObj.refresh();
+        (document.getElementById('pie-wrapper') as HTMLElement).style.display = 'block'
+        pieChartObj.refresh();
+    });
+}
 // tslint:disable-next-line:max-func-body-length
 function InitializeCaloriesComponent(): void {
     interface Result {
@@ -131,6 +204,7 @@ function InitializeCaloriesComponent(): void {
         legendSettings: {
             visible: false, position: "Bottom"
         },
+        tooltip: { enable: true }
     });
     pieChartObj.appendTo('#account-balance');
     pieChartObj.refresh();
@@ -1184,6 +1258,11 @@ function InitializeWaterComponent(): void {
 function waterclick(): void {
     annotation = false;
     selectedpoint = false;
+    (document.getElementById('line') as HTMLElement).style.display = 'none';
+    (document.getElementById('pie-wrapper') as HTMLElement).style.display = 'none';
+    (document.getElementById('line-chart-skeleton') as HTMLElement).style.display = 'block';
+    (document.getElementById('pie-chart-skeleton') as HTMLElement).style.display = 'block';
+    loadCardComponent();
     document.getElementById("water-bg").style.borderRadius = '4px';
     document.getElementById("watercard").style.boxShadow = '0 3px 6px 3px rgba(49,131,185,0.25)';
     document.getElementById("stepcard").style.boxShadow = '0 1px 4px 1px rgba(0,0,0,0.10)';
@@ -1236,6 +1315,11 @@ function waterclick(): void {
 
 function stepclick(): void {
     annotation = true;
+    (document.getElementById('line') as HTMLElement).style.display = 'none';
+    (document.getElementById('pie-wrapper') as HTMLElement).style.display = 'none';
+    (document.getElementById('line-chart-skeleton') as HTMLElement).style.display = 'block';
+    (document.getElementById('pie-chart-skeleton') as HTMLElement).style.display = 'block';
+    loadCardComponent();
     document.getElementById("step-bg").style.borderRadius = '4px';
     document.getElementById("steps-value").style.borderRadius = '4px';
     document.getElementById("watercard").style.boxShadow = '0 1px 4px 1px rgba(0,0,0,0.10)';
@@ -1274,6 +1358,11 @@ function stepclick(): void {
 
 function sleepclick() {
     annotation = false;
+    (document.getElementById('line') as HTMLElement).style.display = 'none';
+    (document.getElementById('pie-wrapper') as HTMLElement).style.display = 'none';
+    (document.getElementById('line-chart-skeleton') as HTMLElement).style.display = 'block';
+    (document.getElementById('pie-chart-skeleton') as HTMLElement).style.display = 'block';
+    loadCardComponent();
     document.getElementById("sleep-bg").style.borderRadius = '4px';
     document.getElementById("sleep-value").style.borderRadius = '4px';
     document.getElementById("watercard").style.boxShadow = '0 1px 4px 1px rgba(0,0,0,0.10)';
@@ -1311,6 +1400,11 @@ function sleepclick() {
 
 function caloriesclick() {
     annotation = false;
+    (document.getElementById('line') as HTMLElement).style.display = 'none';
+    (document.getElementById('pie-wrapper') as HTMLElement).style.display = 'none';
+    (document.getElementById('line-chart-skeleton') as HTMLElement).style.display = 'block';
+    (document.getElementById('pie-chart-skeleton') as HTMLElement).style.display = 'block';
+    loadCardComponent();
     document.getElementById("calories-bg").style.borderRadius = '4px';
     document.getElementById("calories-value").style.borderRadius = '4px';
     document.getElementById("watercard").style.boxShadow = '0 1px 4px 1px rgba(0,0,0,0.10)';
