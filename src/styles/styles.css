@@ -106,8 +106,8 @@
     margin-left: 1.6%;
 }
 .row {
-    margin-right: 0px !important;
-    margin-left: 0px !important;
+    margin-right: 0px ;
+    margin-left: 0px ;
 }
 #leftcontent {
     font-family: 'Roboto';
@@ -237,15 +237,17 @@
 #sleep-bg:hover {
     background-image: 'linear-gradient(to right, #FCDE72 , #F26D6D)';
 }
-.hidden-element-size {
-    visibility: hidden;
-    position: absolute !important;
-}
 .e-card {
+    display: none;
     border-radius: 4px;
     cursor: pointer;
-    overflow: visible !important;
+    overflow: visible;
     line-height: 1.42857143;
+}
+.hidden-element-size {
+    display: block;
+    visibility: hidden;
+    position: absolute;
 }
 .card-block {
     cursor:pointer;
@@ -307,28 +309,28 @@
 #Break-icon:hover {
     background: #FFFFFF;
     border: 1px solid #CB2F1B;
-    box-shadow: 0 2px 4px 0 rgba(240,121,44,0.10) !important;
+    box-shadow: 0 2px 4px 0 rgba(240,121,44,0.10);
     border-radius: 4px;
     cursor: pointer;
 }
 #Lunch-icon:hover {
     background: #FFFFFF;
     border: 1px solid #CB2F1B;
-    box-shadow: 0 2px 4px 0 rgba(240,121,44,0.10) !important;
+    box-shadow: 0 2px 4px 0 rgba(240,121,44,0.10);
     border-radius: 4px;
     cursor: pointer;
 }
 #Dinner-icon:hover {
     background: #FFFFFF;
     border: 1px solid #CB2F1B;
-    box-shadow: 0 2px 4px 0 rgba(240,121,44,0.10) !important;
+    box-shadow: 0 2px 4px 0 rgba(240,121,44,0.10);
     border-radius: 4px;
     cursor: pointer;
 }
 #Snack-icon:hover {
     background: #FFFFFF;
     border: 1px solid #CB2F1B;
-    box-shadow: 0 2px 4px 0 rgba(240,121,44,0.10) !important;
+    box-shadow: 0 2px 4px 0 rgba(240,121,44,0.10);
     border-radius: 4px;
     cursor: pointer;
 }
@@ -336,7 +338,7 @@
     font-family: 'Roboto';
     font-weight: 400;
     font-size: 15px;
-    line-height: 16px !important;
+    line-height: 16px;
     color: #7D7D7D;
     letter-spacing: 0;
 }
@@ -344,7 +346,7 @@
     font-family: 'Roboto';
     font-weight: 400;
     font-size: 15px;
-    line-height: 16px !important;
+    line-height: 16px;
     color: #CB2F1B;
     letter-spacing: 0;
 }
@@ -479,7 +481,7 @@ letter-spacing: 0;
     box-shadow: 0 1px 4px 1px rgba(102,56,185,0.30) !important;
 }
 #chart {
-    margin:0% 3% !important;
+    margin:0% 3%;
 }
 #water50ml-column {
     width: 22%;
@@ -607,6 +609,7 @@ text-align: center;
         margin-bottom: 16px;
     }
 }
+
 @media only screen and (max-width:375px)
 {
     #Break-text, #Lunch-text, #Dinner-text, #Snack-text {
@@ -616,6 +619,7 @@ text-align: center;
         font-size: 38px;
     }
 }
+
 @media only screen and (max-width:300px)
 {
     .column-chart-area{
@@ -666,23 +670,19 @@ text-align: center;
     .col-md-2 {
         margin-left: 8%;
     }
-.line-chart{
+    .line-chart{
         margin-bottom: 16px;
-}
-}
-
-@media (max-width: 768px)
-{
-    
-.pie-chart,
-.column-chart,
-.line-chart{
-    margin-bottom: 16px;
+    }
 }
 
-
-
+@media (max-width: 768px) {
+    .pie-chart,
+    .column-chart,
+    .line-chart{
+        margin-bottom: 16px;
+    }
 }
+
 @media only screen and (min-width: 1400px) and (max-width: 3400px) {
     #water50ml-column {
         margin-left: 20px !important;
