@@ -36,7 +36,7 @@ export let category: string[] = [];
 InitializeAppBar();
 InitializeSkeleton();
 LoadCardData();
-LoadChartData();
+LoadChartData("calorie");
 
 function InitializeAppBar(): void {
     let appbarObj = new AppBar({
@@ -113,19 +113,15 @@ function LoadCardData(): void {
         ToggleVisibility('none', 'block');
     });
 }
-function GetChartData(annotation: string): any {
+function GetChartData(): any {
     return new Promise(resolve => setTimeout(() => {
         let data: { [key: string]: Object } = {};
         resolve(data);
-        if(!annotation){
-            InitializeCaloriesComponent();
-        }
     }, 2000));
 }
-function LoadChartData(annotation?: string): void {
-    GetChartData(annotation).then((data: any) => {
-        if(annotation) {
-            switch(annotation.toLowerCase()) {
+function LoadChartData(activity: string): void {
+    GetChartData().then((data: any) => {
+            switch(activity.toLowerCase()) {
                 case "calorie": {
                     ToggleVisibility('none', 'block');
                     InitializeCaloriesComponent();
@@ -147,7 +143,6 @@ function LoadChartData(annotation?: string): void {
                     break;
                 }
             }
-        }
     });
 }
 function ToggleVisibility(displaySkeleton:string, displayChart:string): void {
