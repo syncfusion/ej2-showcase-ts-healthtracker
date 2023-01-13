@@ -37,6 +37,7 @@ InitializeAppBar();
 InitializeSkeleton();
 LoadCardData();
 LoadChartData("calorie");
+BindCardClick();
 
 function InitializeAppBar(): void {
     let appbarObj = new AppBar({
@@ -121,28 +122,28 @@ function GetChartData(): any {
 }
 function LoadChartData(activity: string): void {
     GetChartData().then((data: any) => {
-            switch(activity.toLowerCase()) {
-                case "calorie": {
-                    ToggleVisibility('none', 'block');
-                    InitializeCaloriesComponent();
-                    break;
-                }
-                case "steps": {
-                    ToggleVisibility('none', 'block');
-                    InitializeStepsComponent();
-                    break;
-                }
-                case "water": {
-                    ToggleVisibility('none', 'block');
-                    InitializeWaterComponent();
-                    break;
-                }
-                case "sleep": {
-                    ToggleVisibility('none', 'block');
-                    InitializeSleepComponent();
-                    break;
-                }
+        switch(activity.toLowerCase()) {
+            case "calorie": {
+                ToggleVisibility('none', 'block');
+                InitializeCaloriesComponent();
+                break;
             }
+            case "steps": {
+                ToggleVisibility('none', 'block');
+                InitializeStepsComponent();
+                break;
+            }
+            case "water": {
+                ToggleVisibility('none', 'block');
+                InitializeWaterComponent();
+                break;
+            }
+            case "sleep": {
+                ToggleVisibility('none', 'block');
+                InitializeSleepComponent();
+                break;
+            }
+        }
     });
 }
 function ToggleVisibility(displaySkeleton:string, displayChart:string): void {
@@ -150,6 +151,57 @@ function ToggleVisibility(displaySkeleton:string, displayChart:string): void {
     (document.getElementById('pie-chart-skeleton') as HTMLElement).style.display = displaySkeleton;
     (document.getElementById('line') as HTMLElement).style.display = displayChart;
     (document.getElementById('pie-wrapper') as HTMLElement).style.display = displayChart;
+}
+function BindCardClick(): void{
+    document.getElementById("water").onclick = function () {
+        document.querySelector('#polar #pie-title').innerHTML = 'Sunday Activity';
+        document.getElementById("calories-text").style.color = '#828282';
+        document.getElementById("calories-subtitle").style.color = '#828282';
+        document.getElementById("steps-text").style.color = '#828282';
+        document.getElementById("steps-subtitle").style.color = '#828282';
+        document.getElementById("water-text").style.color = '#FFFFFF';
+        document.getElementById("water-subtitle").style.color = '#FFFFFF';
+        document.getElementById("sleep-text").style.color = '#828282';
+        document.getElementById("sleep-subtitle").style.color = '#828282';
+        waterclick();
+    };
+    document.getElementById("step").onclick = function () {
+        document.querySelector('#multiple-donut #pie-title').innerHTML = 'Sunday Activity';
+        document.getElementById("chart-title").innerHTML = 'Steps Count';
+        document.getElementById("calories-text").style.color = '#828282';
+        document.getElementById("calories-subtitle").style.color = '#828282';
+        document.getElementById("steps-text").style.color = '#FFFFFF';
+        document.getElementById("steps-subtitle").style.color = '#FFFFFF';
+        document.getElementById("water-text").style.color = '#828282';
+        document.getElementById("water-subtitle").style.color = '#828282';
+        document.getElementById("sleep-text").style.color = '#828282';
+        document.getElementById("sleep-subtitle").style.color = '#828282';
+        stepclick();
+    };
+    document.getElementById("sleep").onclick = function () {
+        document.getElementById("chart-title").innerHTML = 'Sleep Tracker';
+        document.getElementById("calories-text").style.color = '#828282';
+        document.getElementById("calories-subtitle").style.color = '#828282';
+        document.getElementById("steps-text").style.color = '#828282';
+        document.getElementById("steps-subtitle").style.color = '#828282';
+        document.getElementById("water-text").style.color = '#828282';
+        document.getElementById("water-subtitle").style.color = '#828282';
+        document.getElementById("sleep-text").style.color = '#FFFFFF';
+        document.getElementById("sleep-subtitle").style.color = '#FFFFFF';
+        sleepclick();
+    };
+    document.getElementById("calories").onclick = function () {
+        document.getElementById("chart-title").innerHTML = 'Calories Consumed';
+        document.getElementById("calories-text").style.color = '#FFFFFF';
+        document.getElementById("calories-subtitle").style.color = '#FFFFFF';
+        document.getElementById("steps-text").style.color = '#828282';
+        document.getElementById("steps-subtitle").style.color = '#828282';
+        document.getElementById("water-text").style.color = '#828282';
+        document.getElementById("water-subtitle").style.color = '#828282';
+        document.getElementById("sleep-text").style.color = '#828282';
+        document.getElementById("sleep-subtitle").style.color = '#828282';
+        caloriesclick();
+    };
 }
 // tslint:disable-next-line:max-func-body-length
 function InitializeCaloriesComponent(): void {
@@ -419,41 +471,6 @@ function InitializeCaloriesComponent(): void {
                 document.getElementById("vitamins_value").innerHTML = '60g';
                 pieChartObj.series[0].dataSource = (<{ Snack: Object[] }>Sunday[0]).Snack;
             }
-            document.getElementById("water").onclick = function () {
-                document.getElementById("chart-title").innerHTML = 'Water Consumption';
-                document.getElementById("pie-title").innerHTML = 'Sunday Report';
-                document.getElementById("calories-subtitle").style.color = '#828282';
-                document.getElementById("calories-text").style.color = '#828282';
-                document.getElementById("water-text").style.color = '#FFFFFF';
-                document.getElementById("water-subtitle").style.color = '#FFFFFF';
-                waterclick();
-            };
-            document.getElementById("step").onclick = function () {
-                document.getElementById("chart-title").innerHTML = 'Steps Count';
-                document.getElementById("pie-title").innerHTML = 'Sunday Activity';
-                document.getElementById("calories-subtitle").style.color = '#828282';
-                document.getElementById("calories-text").style.color = '#828282';
-                document.getElementById("steps-text").style.color = '#FFFFFF';
-                document.getElementById("steps-subtitle").style.color = '#FFFFFF';
-                document.getElementById("steps-img").style.color = '#FFFFFF';
-                stepclick();
-            };
-            document.getElementById("sleep").onclick = function () {
-                document.getElementById("chart-title").innerHTML = 'Sleep Tracker';
-                document.getElementById("pie-title").innerHTML = 'Sleep Quality';
-                document.getElementById("calories-subtitle").style.color = '#828282';
-                document.getElementById("calories-text").style.color = '#828282';
-                document.getElementById("sleep-text").style.color = '#FFFFFF';
-                document.getElementById("sleep-subtitle").style.color = '#FFFFFF';
-                sleepclick();
-            };
-            document.getElementById("calories").onclick = function () {
-                document.getElementById("chart-title").innerHTML = 'Calories Consumed';
-                document.getElementById("pie-title").innerHTML = 'Macro Nutrients';
-                document.getElementById("calories-subtitle").style.color = '#FFFFFF';
-                document.getElementById("calories-text").style.color = '#FFFFFF';
-                caloriesclick();
-            };
         }
     });
     linechartObj.appendTo('#balance');
@@ -475,7 +492,7 @@ function InitializeStepsComponent(): void {
             switch (index.point) {
                 case 0:
                     pieChartObj.series[0].dataSource = (<{ Steps: Object[] }>Sunday[0]).Steps;
-                    document.getElementById("pie-title").innerHTML = 'Sunday Activity';
+                    document.querySelector('#multiple-donut #pie-title').innerHTML = 'Sunday Activity';
                     document.getElementById("stepstext").innerHTML = '8200';
                     document.getElementById("exercise").innerHTML = '15';
                     document.getElementById("active").innerHTML = '7';
@@ -485,7 +502,7 @@ function InitializeStepsComponent(): void {
                     break;
                 case 1:
                     pieChartObj.series[0].dataSource = (<{ Steps: Object[] }>Monday[0]).Steps;
-                    document.getElementById("pie-title").innerHTML = 'Monday Activity';
+                    document.querySelector('#multiple-donut #pie-title').innerHTML = 'Monday Activity';
                     document.getElementById("stepstext").innerHTML = '7300';
                     document.getElementById("exercise").innerHTML = '16';
                     document.getElementById("active").innerHTML = '6';
@@ -495,7 +512,7 @@ function InitializeStepsComponent(): void {
                     break;
                 case 2:
                     pieChartObj.series[0].dataSource = (<{ Steps: Object[] }>Tuesday[0]).Steps;
-                    document.getElementById("pie-title").innerHTML = 'Tuesday Activity';
+                    document.querySelector('#multiple-donut #pie-title').innerHTML = 'Tuesday Activity';
                     document.getElementById("stepstext").innerHTML = '7800';
                     document.getElementById("exercise").innerHTML = '20';
                     document.getElementById("active").innerHTML = '5';
@@ -505,7 +522,7 @@ function InitializeStepsComponent(): void {
                     break;
                 case 3:
                     pieChartObj.series[0].dataSource = (<{ Steps: Object[] }>Wednesday[0]).Steps;
-                    document.getElementById("pie-title").innerHTML = 'Wednesday Activity';
+                    document.querySelector('#multiple-donut #pie-title').innerHTML = 'Wednesday Activity';
                     document.getElementById("stepstext").innerHTML = '6800';
                     document.getElementById("exercise").innerHTML = '16';
                     document.getElementById("active").innerHTML = '3';
@@ -515,7 +532,7 @@ function InitializeStepsComponent(): void {
                     break;
                 case 4:
                     pieChartObj.series[0].dataSource = (<{ Steps: Object[] }>Thursday[0]).Steps;
-                    document.getElementById("pie-title").innerHTML = 'Thursday Activity';
+                    document.querySelector('#multiple-donut #pie-title').innerHTML = 'Thursday Activity';
                     document.getElementById("stepstext").innerHTML = '7000';
                     document.getElementById("exercise").innerHTML = '10';
                     document.getElementById("active").innerHTML = '7';
@@ -525,7 +542,7 @@ function InitializeStepsComponent(): void {
                     break;
                 case 5:
                     pieChartObj.series[0].dataSource = (<{ Steps: Object[] }>Friday[0]).Steps;
-                    document.getElementById("pie-title").innerHTML = 'Friday Activity';
+                    document.querySelector('#multiple-donut #pie-title').innerHTML = 'Friday Activity';
                     document.getElementById("stepstext").innerHTML = '6900';
                     document.getElementById("exercise").innerHTML = '22';
                     document.getElementById("active").innerHTML = '4';
@@ -535,7 +552,7 @@ function InitializeStepsComponent(): void {
                     break;
                 case 6:
                     pieChartObj.series[0].dataSource = (<{ Steps: Object[] }>Saturday[0]).Steps;
-                    document.getElementById("pie-title").innerHTML = 'Saturday Activity';
+                    document.querySelector('#multiple-donut #pie-title').innerHTML = 'Saturday Activity';
                     document.getElementById("stepstext").innerHTML = '7200';
                     document.getElementById("exercise").innerHTML = '17';
                     document.getElementById("active").innerHTML = '4';
@@ -684,40 +701,6 @@ function InitializeStepsComponent(): void {
             content: '<div id="thumbs_up"><img src="../../icons/Shape.png"  style="width: 30px; height: 30px"/></div>',
             x: 'Tuesday', y: 9800, coordinateUnits: 'Point', verticalAlignment: 'Top'
         }],
-        loaded: (args: ILoadedEventArgs) => {
-            document.getElementById("water").onclick = function () {
-                document.getElementById("steps-subtitle").style.color = '#828282';
-                document.getElementById("steps-text").style.color = '#828282';
-                document.getElementById("water-text").style.color = '#FFFFFF';
-                document.getElementById("water-subtitle").style.color = '#FFFFFF';
-                waterclick();
-            };
-            document.getElementById("step").onclick = function () {
-                document.getElementById("chart-title").innerHTML = 'Steps Count';
-                document.getElementById("pie-title").innerHTML = 'Sunday Activity';
-                document.getElementById("steps-subtitle").style.color = '#FFFFFF';
-                document.getElementById("steps-text").style.color = '#FFFFFF';
-                stepclick();
-            };
-            document.getElementById("sleep").onclick = function () {
-                document.getElementById("chart-title").innerHTML = 'Sleep Tracker';
-                document.getElementById("pie-title").innerHTML = 'Sleep Quality';
-                document.getElementById("steps-subtitle").style.color = '#828282';
-                document.getElementById("steps-text").style.color = '#828282';
-                document.getElementById("sleep-text").style.color = '#FFFFFF';
-                document.getElementById("sleep-subtitle").style.color = '#FFFFFF';
-                sleepclick();
-            };
-            document.getElementById("calories").onclick = function () {
-                document.getElementById("chart-title").innerHTML = 'Calories Consumed';
-                document.getElementById("pie-title").innerHTML = 'Macro Nutrients';
-                document.getElementById("steps-subtitle").style.color = '#828282';
-                document.getElementById("steps-text").style.color = '#828282';
-                document.getElementById("calories-text").style.color = '#FFFFFF';
-                document.getElementById("calories-subtitle").style.color = '#FFFFFF';
-                caloriesclick();
-            };
-        }
     });
     linechartObj.appendTo('#balance');
     linechartObj.refresh();
@@ -927,40 +910,6 @@ function InitializeSleepComponent(): void {
             format: '${point.y}',
             enableMarker: false
         },
-        loaded: (args: ILoadedEventArgs) => {
-            document.getElementById("water").onclick = function () {
-                document.getElementById("sleep-subtitle").style.color = '#828282';
-                document.getElementById("sleep-text").style.color = '#828282';
-                document.getElementById("water-text").style.color = '#FFFFFF';
-                document.getElementById("water-subtitle").style.color = '#FFFFFF';
-                waterclick();
-            };
-            document.getElementById("step").onclick = function () {
-                document.getElementById("chart-title").innerHTML = 'Steps Count';
-                document.getElementById("pie-title").innerHTML = 'Sunday Activity';
-                document.getElementById("sleep-subtitle").style.color = '#828282';
-                document.getElementById("sleep-text").style.color = '#828282';
-                document.getElementById("steps-text").style.color = '#FFFFFF';
-                document.getElementById("steps-subtitle").style.color = '#FFFFFF';
-                stepclick();
-            };
-            document.getElementById("sleep").onclick = function () {
-                document.getElementById("chart-title").innerHTML = 'Sleep Tracker';
-                document.getElementById("pie-title").innerHTML = 'Sleep Quality';
-                document.getElementById("sleep-subtitle").style.color = '#FFFFFF';
-                document.getElementById("sleep-text").style.color = '#FFFFFF';
-                sleepclick();
-            };
-            document.getElementById("calories").onclick = function () {
-                document.getElementById("chart-title").innerHTML = 'Calories Consumed';
-                document.getElementById("pie-title").innerHTML = 'Macro Nutrients';
-                document.getElementById("sleep-subtitle").style.color = '#828282';
-                document.getElementById("sleep-text").style.color = '#828282';
-                document.getElementById("calories-text").style.color = '#FFFFFF';
-                document.getElementById("calories-subtitle").style.color = '#FFFFFF';
-                caloriesclick();
-            };
-        }
     });
     linechartObj.appendTo('#balance');
     linechartObj.refresh();
@@ -1009,31 +958,31 @@ function InitializeWaterComponent(): void {
             switch (args.pointIndex) {
                 case 0:
                     polarChartObj.series[0].dataSource = (<{ water: Object[] }>Sunday[0]).water;
-                    document.getElementById("pie-title").innerHTML = 'Sunday Activity';
+                    document.querySelector('#polar #pie-title').innerHTML = 'Sunday Activity';
                     break;
                 case 1:
                     polarChartObj.series[0].dataSource = (<{ water: Object[] }>Monday[0]).water;
-                    document.getElementById("pie-title").innerHTML = 'Monday Activity';
+                    document.querySelector('#polar #pie-title').innerHTML = 'Monday Activity';
                     break;
                 case 2:
                     polarChartObj.series[0].dataSource = (<{ water: Object[] }>Tuesday[0]).water;
-                    document.getElementById("pie-title").innerHTML = 'Tuesday Activity';
+                    document.querySelector('#polar #pie-title').innerHTML = 'Tuesday Activity';
                     break;
                 case 3:
                     polarChartObj.series[0].dataSource = (<{ water: Object[] }>Wednesday[0]).water;
-                    document.getElementById("pie-title").innerHTML = 'Wednesday Activity';
+                    document.querySelector('#polar #pie-title').innerHTML = 'Wednesday Activity';
                     break;
                 case 4:
                     polarChartObj.series[0].dataSource = (<{ water: Object[] }>Thursday[0]).water;
-                    document.getElementById("pie-title").innerHTML = 'Thursday Activity';
+                    document.querySelector('#polar #pie-title').innerHTML = 'Thursday Activity';
                     break;
                 case 5:
                     polarChartObj.series[0].dataSource = (<{ water: Object[] }>Friday[0]).water;
-                    document.getElementById("pie-title").innerHTML = 'Friday Activity';
+                    document.querySelector('#polar #pie-title').innerHTML = 'Friday Activity';
                     break;
                 case 6:
                     polarChartObj.series[0].dataSource = (<{ water: Object[] }>Saturday[0]).water;
-                    document.getElementById("pie-title").innerHTML = 'Saturday Activity';
+                    document.querySelector('#polar #pie-title').innerHTML = 'Saturday Activity';
                     break;
             }
             polarChartObj.series[0].animation.enable = true;
@@ -1237,42 +1186,6 @@ function InitializeWaterComponent(): void {
             content: '<div id="waterachieved"><span id="achieved-img" class="icon-achieved" style="font-size: 30px; color: #3B61E9"></span></div>',
             x: 'Thursday', y: 7.5, coordinateUnits: 'Point', verticalAlignment: 'Top'
         }],
-        loaded: (args: ILoadedEventArgs) => {
-            document.getElementById("water").onclick = function () {
-                waterclick();
-            };
-            document.getElementById("step").onclick = function () {
-                document.getElementById("chart-title").innerHTML = 'Steps Count';
-                document.getElementById("pie-title").innerHTML = 'Sunday Activity';
-                document.getElementById("water-subtitle").style.color = '#828282';
-                document.getElementById("water-text").style.color = '#828282';
-                document.getElementById("steps-text").style.color = '#FFFFFF';
-                document.getElementById("steps-subtitle").style.color = '#FFFFFF';
-                stepclick();
-            };
-            document.getElementById("sleep").onclick = function () {
-                document.getElementById("chart-title").innerHTML = 'Sleep Tracker';
-                document.getElementById("pie-title").innerHTML = 'Sleep Quality';
-                document.getElementById("water-subtitle").style.color = '#828282';
-                document.getElementById("water-text").style.color = '#828282';
-                document.getElementById("sleep-text").style.color = '#FFFFFF';
-                document.getElementById("sleep-subtitle").style.color = '#FFFFFF';
-                sleepclick();
-            };
-            document.getElementById("calories").onclick = function (e) {
-                document.getElementById("multiple-donut").style.display = 'none';
-                document.getElementById("donut").style.display = 'block';
-                document.getElementById("semi-pie").style.display = 'none';
-                document.getElementById("polar").style.display = 'none';
-                document.getElementById("chart-title").innerHTML = 'Calories Consumed';
-                document.getElementById("pie-title").innerHTML = 'Macro Nutrients';
-                document.getElementById("water-subtitle").style.color = '#828282';
-                document.getElementById("water-text").style.color = '#828282';
-                document.getElementById("calories-text").style.color = '#FFFFFF';
-                document.getElementById("calories-subtitle").style.color = '#FFFFFF';
-                caloriesclick();
-            };
-        }
     });
     linechartObj.appendTo('#balance');
     linechartObj.refresh();
@@ -1303,11 +1216,7 @@ function waterclick(): void {
     document.getElementById("iconml1-img").style.color = '#5B5B5B';
     document.getElementById("iconml2-img").style.color = '#5B5B5B';
     document.getElementById("iconml3-img").style.color = '#5B5B5B';
-    document.getElementById("sleep-column").className = "col-xs-6 col-xl-3 col-lg-3 col-md-3 col-sm-6 sleep-value";
-    document.getElementById("step-column").className = "col-xs-6 col-xl-3 col-lg-3 col-md-3 col-sm-6 steps-value";
-    document.getElementById("calories-column").className = "col-xs-6 col-xl-3 col-lg-3 col-md-3 col-sm-6 calories-value";
-    document.getElementById("water-column").className = "col-xs-6 col-xl-3 col-lg-3 col-md-3 col-sm-6 water-valueactive";
-    document.getElementById("pie-title").innerHTML = 'Sunday Report';
+    document.getElementById('water-column').classList.replace('water-value', 'water-valueactive');
     document.getElementById("multiple-donut").style.display = 'none';
     document.getElementById("donut").style.display = 'none';
     document.getElementById("semi-pie").style.display = 'none';
@@ -1342,10 +1251,7 @@ function stepclick(): void {
     document.getElementById("stepcard").style.boxShadow = '0 3px 6px 3px rgba(66,254,19,0.20)';
     document.getElementById("sleepcard").style.boxShadow = '0 1px 4px 1px rgba(0,0,0,0.10)';
     document.getElementById("caloriescard").style.boxShadow = '0 1px 4px 1px rgba(0,0,0,0.10)';
-    document.getElementById("sleep-column").className = "col-xs-6 col-xl-3 col-lg-3 col-md-3 col-sm-6 sleep-value";
-    document.getElementById("step-column").className = "col-xs-6 col-xl-3 col-lg-3 col-md-3 col-sm-6 steps-valueactive";
-    document.getElementById("calories-column").className = "col-xs-6 col-xl-3 col-lg-3 col-md-3 col-sm-6 calories-value";
-    document.getElementById("water-column").className = "col-xs-6 col-xl-3 col-lg-3 col-md-3 col-sm-6 water-value";
+    document.getElementById('step-column').classList.replace('steps-value', 'steps-valueactive');
     document.getElementById("multiple-donut").style.display = 'block';
     document.getElementById("donut").style.display = 'none';
     document.getElementById("semi-pie").style.display = 'none';
@@ -1369,7 +1275,6 @@ function stepclick(): void {
     document.getElementById('chart-header-title').innerHTML = '<span id="chart-title"> Steps Taken </span>';
 	document.getElementById('total-value').innerHTML = '<span id="title-annotation"> Distance Travelled </span><span id="value-annotation" style="color:#05AD13"> 3.2 miles </span>';
 	document.getElementById("average-value").innerHTML = '';
-    document.getElementById("pie-title").innerHTML = 'Today';
     LoadChartData("steps");
 }
 
@@ -1382,10 +1287,7 @@ function sleepclick() {
     document.getElementById("stepcard").style.boxShadow = '0 1px 4px 1px rgba(0,0,0,0.10)';
     document.getElementById("sleepcard").style.boxShadow = '0 3px 6px 3px rgba(71,63,204,0.20)';
     document.getElementById("caloriescard").style.boxShadow = '0 1px 4px 1px rgba(0,0,0,0.10)';
-    document.getElementById("sleep-column").className = "col-xs-6 col-xl-3 col-lg-3 col-md-3 col-sm-6 sleep-valueactive";
-    document.getElementById("step-column").className = "col-xs-6 col-xl-3 col-lg-3 col-md-3 col-sm-6 steps-value";
-    document.getElementById("calories-column").className = "col-xs-6 col-xl-3 col-lg-3 col-md-3 col-sm-6 calories-value";
-    document.getElementById("water-column").className = "col-xs-6 col-xl-3 col-lg-3 col-md-3 col-sm-6 water-value";
+    document.getElementById('sleep-column').classList.replace('sleep-value', 'sleep-valueactive');
     document.getElementById("multiple-donut").style.display = 'none';
     document.getElementById("donut").style.display = 'none';
     document.getElementById("semi-pie").style.display = 'block';
@@ -1421,10 +1323,7 @@ function caloriesclick() {
     document.getElementById("stepcard").style.boxShadow = '0 1px 4px 1px rgba(0,0,0,0.10)';
     document.getElementById("sleepcard").style.boxShadow = '0 1px 4px 1px rgba(0,0,0,0.10)';
     document.getElementById("caloriescard").style.boxShadow = '0 3px 6px 2px rgba(178,30,195,0.30)';
-    document.getElementById("sleep-column").className = "col-xs-6 col-xl-3 col-lg-3 col-md-3 col-sm-6 sleep-value";
-    document.getElementById("step-column").className = "col-xs-6 col-xl-3 col-lg-3 col-md-3 col-sm-6 steps-value";
-    document.getElementById("calories-column").className = "col-xs-6 col-xl-3 col-lg-3 col-md-3 col-sm-6 calories-valueactive";
-    document.getElementById("water-column").className = "col-xs-6 col-xl-3 col-lg-3 col-md-3 col-sm-6 water-value";
+    document.getElementById('calories-column').classList.replace('calories-value', 'calories-valueactive');
     document.getElementById("multiple-donut").style.display = 'none';
     document.getElementById("donut").style.display = 'block';
     document.getElementById("semi-pie").style.display = 'none';
