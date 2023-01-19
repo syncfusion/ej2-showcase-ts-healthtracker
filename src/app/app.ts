@@ -33,12 +33,16 @@ let annotationpie2: AccumulationChart;
 let annotation: boolean = true;
 let selectedpoint: boolean = false;
 export let category: string[] = [];
-InitializeAppBar();
-InitializeSkeleton();
-LoadCardData();
-LoadChartData("calorie");
-BindCardClick();
 
+Initialize();
+
+function Initialize(): void {
+    InitializeAppBar();
+    InitializeSkeleton();
+    LoadCardData();
+    LoadChartData("calorie");
+    BindCardClick();
+}
 function InitializeAppBar(): void {
     let appbarObj = new AppBar({
         cssClass: 'custom-appbar'
@@ -46,41 +50,38 @@ function InitializeAppBar(): void {
     appbarObj.appendTo("#appbar");
 }
 function InitializeSkeleton(): void {
-    const cards: NodeList = document.querySelectorAll('#card-row .row .e-card');
-    addClass([cards[0] as HTMLElement, cards[1] as HTMLElement, cards[2] as HTMLElement, cards[3] as HTMLElement], "hidden-element-size");
+    const cards: NodeListOf<HTMLElement> = document.querySelectorAll('#card-row .row .e-card');
+    addClass([cards[0], cards[1], cards[2], cards[3]], "hidden-element-size");
     let calorieSkeleton: Skeleton = new Skeleton({
         width: '100%',
-        height: (cards[0] as HTMLElement).offsetHeight,
+        height: cards[0].offsetHeight,
         shimmerEffect: 'Wave'
     })
     calorieSkeleton.appendTo('#calorie-skeleton');
-    removeClass([(cards[0] as HTMLElement)], "hidden-element-size");
     let stepSkeleton: Skeleton = new Skeleton({
         width: '100%',
-        height: (cards[1] as HTMLElement).offsetHeight,
+        height: cards[1].offsetHeight,
         shimmerEffect: 'Wave'
     })
     stepSkeleton.appendTo('#steps-skeleton');
-    removeClass([(cards[1] as HTMLElement)], "hidden-element-size");
     let waterSkeleton: Skeleton = new Skeleton({
         width: '100%',
-        height: (cards[2] as HTMLElement).offsetHeight,
+        height: cards[2].offsetHeight,
         shimmerEffect: 'Wave'
     })
     waterSkeleton.appendTo('#water-skeleton');
-    removeClass([(cards[2] as HTMLElement)], "hidden-element-size");
     let sleepSkeleton: Skeleton = new Skeleton({
         width: '100%',
-        height: (cards[3] as HTMLElement).offsetHeight,
+        height: cards[3].offsetHeight,
         shimmerEffect: 'Wave'
     })
     sleepSkeleton.appendTo('#sleep-skeleton');
-    removeClass([(cards[3] as HTMLElement)], "hidden-element-size");
     let lineChartSkeleton: Skeleton = new Skeleton({
         width: '100%',
         height: '100%',
         shimmerEffect: 'Wave'
     })
+    removeClass([cards[0], cards[1], cards[2], cards[3]], "hidden-element-size");
     lineChartSkeleton.appendTo('#line-chart-skeleton');
     let pieChartSkeleton: Skeleton = new Skeleton({
         width: '100%',
@@ -106,11 +107,7 @@ function LoadCardData(): void {
         document.getElementById('water-text').textContent = data['water-consumed'];
         document.getElementById('sleep-text').textContent = data['sleep-duration'];
         document.querySelectorAll('#card-row .row .card-skeleton').forEach((elem: HTMLElement) => elem.style.display = 'none');
-        const cards: NodeList = document.querySelectorAll('#card-row .row .e-card');
-        (cards[0] as HTMLElement).style.display = 'flex';
-        (cards[1] as HTMLElement).style.display = 'flex';
-        (cards[2] as HTMLElement).style.display = 'flex';
-        (cards[3] as HTMLElement).style.display = 'flex';
+        document.querySelectorAll('#card-row .row .e-card').forEach((elem: HTMLElement) => elem.style.display = 'flex');
         ToggleVisibility('none', 'block');
     });
 }
