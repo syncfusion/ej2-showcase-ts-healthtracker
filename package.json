@@ -5,7 +5,7 @@
     "main": "index.js",
     "scripts": {
         "build": "webpack --mode production",
-        "start": "webpack serve --mode development --open",
+        "start": "webpack serve --mode development --open"
     },
     "author": "Syncfusion Inc.",
     "license": "SEE LICENSE IN license",
