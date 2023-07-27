@@ -1,3 +1,6 @@
-src/**/*.js
-!src/system.config.js
+.vscode/
 node_modules/
+dist/
+npm-debug.log
+shelljs*
+package-lock.json
