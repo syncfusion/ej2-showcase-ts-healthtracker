@@ -1,29 +1,46 @@
 {
-    "name": "ej2-health-tracker",
-    "version": "0.0.1",
-    "description": "Essential JS 2 typescript health tracker showcase application",
+    "name": "@syncfusion/ej2-typescript-health_tracker",
+    "version": "1.0.0",
+    "description": "Essential JS 2 - Health Tracker",
+    "main": "index.js",
+    "scripts": {
+        "build": "webpack --mode production",
+        "start": "webpack serve --mode development --open"
+    },
     "author": "Syncfusion Inc.",
     "license": "SEE LICENSE IN license",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/syncfusion/ej2-quickstart.git"
+    "devDependencies": {
+        "@types/crossroads": "^0.0.30",
+        "@types/hasher": "^0.0.32",
+        "copy-webpack-plugin": "^11.0.0",
+        "crossroads": "^0.12.2",
+        "css-loader": "^6.8.1",
+        "file-loader": "^6.2.0",
+        "hasher": "^1.2.0",
+        "html-webpack-plugin": "^5.5.3",
+        "mini-css-extract-plugin": "^2.7.6",
+        "sass": "^1.63.6",
+        "sass-loader": "^13.3.2",
+        "style-loader": "^3.3.3",
+        "terser-webpack-plugin": "^5.3.9",
+        "ts-loader": "^9.4.4",
+        "typescript": "^5.1.6",
+        "webpack": "^5.88.1",
+        "webpack-cli": "^5.1.4",
+        "webpack-dev-server": "^4.15.1"
     },
     "dependencies": {
-        "@syncfusion/ej2": "*"
-    },
-    "devDependencies": {
-        "browser-sync": "^2.18.12",
-        "gulp": "^3.9.1",
-        "gulp-protractor": "^4.1.0",
-        "gulp-typescript": "^2.13.0",
-        "jasmine": "^2.6.0",
-        "systemjs": "^0.20.14",
-        "typescript": "^4.9.3"
-    },
-    "scripts": {
-        "start": "gulp start",
-        "serve": "gulp e2e-serve",
-        "test": "gulp e2e-test",
-        "update-webdriver": "gulp e2e-webdriver-update"
+        "@syncfusion/ej2-base": "*",
+        "@syncfusion/ej2-buttons": "*",
+        "@syncfusion/ej2-calendars": "*",
+        "@syncfusion/ej2-charts": "*",
+        "@syncfusion/ej2-data": "*",
+        "@syncfusion/ej2-dropdowns": "*",
+        "@syncfusion/ej2-grids": "*",
+        "@syncfusion/ej2-inputs": "*",
+        "@syncfusion/ej2-layouts": "*",
+        "@syncfusion/ej2-navigations": "*",
+        "@syncfusion/ej2-notifications": "*",
+        "@syncfusion/ej2-popups": "*"
     }
 }

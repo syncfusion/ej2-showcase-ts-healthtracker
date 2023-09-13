@@ -1,3 +1,7 @@
+// tslint:disable
+/**
+ *
+ */
 export let Sunday: Object[] = [{
     "Steps": [{ x: "Steps", y: 8200, text: "98.88%"}, { x: "Left", y: 800, text: "1.12%"}],
     "Exercise": [{ x: "Exercise", y: 6800, text: "98.88%"}, { x: "Left", y: 2200, text: "1.12%"}],

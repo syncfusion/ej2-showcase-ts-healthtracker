@@ -14,12 +14,20 @@ To install all dependent packages, use the below command
 npm install
 ```
 
-### Run
+## Build the application
 
-To run the sample, use the below command
+To build the application, use the below command,
 
+```sh
+npm run build
 ```
-gulp serve
+
+## Run the application
+
+To run the sample in the browser with live reload, use the following command:
+
+```sh
+npm run start
 ```
 
 ## Demo
