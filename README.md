@@ -16,7 +16,7 @@ npm install
 
 ## Build the application
 
-To Build the application, use the below command,
+To build the application, use the below command,
 
 ```sh
 npm run build
