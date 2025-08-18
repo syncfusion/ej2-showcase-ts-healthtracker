@@ -102,12 +102,26 @@ function GetCardData(): any {
 }
 function LoadCardData(): void {
     GetCardData().then((data: any) => {
-        document.getElementById('calories-text').textContent = data['calories-eaten'];
-        document.getElementById('steps-text').textContent = data['steps-taken'];
-        document.getElementById('water-text').textContent = data['water-consumed'];
-        document.getElementById('sleep-text').textContent = data['sleep-duration'];
-        document.querySelectorAll('#card-row .row .card-skeleton').forEach((elem: HTMLElement) => elem.style.display = 'none');
-        document.querySelectorAll('#card-row .row .e-card').forEach((elem: HTMLElement) => elem.style.display = 'flex');
+        const caloriesText = document.getElementById('calories-text');
+        const stepsText = document.getElementById('steps-text');
+        const waterText = document.getElementById('water-text');
+        const sleepText = document.getElementById('sleep-text');
+        
+        if (caloriesText) caloriesText.textContent = data['calories-eaten'];
+        if (stepsText) stepsText.textContent = data['steps-taken'];
+        if (waterText) waterText.textContent = data['water-consumed'];
+        if (sleepText) sleepText.textContent = data['sleep-duration'];
+        
+        document.querySelectorAll('#card-row .row .card-skeleton').forEach((elem: Element) => {
+            if (elem instanceof HTMLElement) {
+                elem.style.display = 'none';
+            }
+        });
+        document.querySelectorAll('#card-row .row .e-card').forEach((elem: Element) => {
+            if (elem instanceof HTMLElement) {
+                elem.style.display = 'flex';
+            }
+        });
         ToggleVisibility('none', 'block');
     });
 }
@@ -144,37 +158,75 @@ function LoadChartData(activity: string): void {
     });
 }
 function ToggleVisibility(displaySkeleton:string, displayChart:string): void {
-    (document.getElementById('line-chart-skeleton') as HTMLElement).style.display = displaySkeleton;
-    (document.getElementById('pie-chart-skeleton') as HTMLElement).style.display = displaySkeleton;
-    (document.getElementById('line') as HTMLElement).style.display = displayChart;
-    (document.getElementById('pie-wrapper') as HTMLElement).style.display = displayChart;
+    const lineChartSkeleton = document.getElementById('line-chart-skeleton');
+    const pieChartSkeleton = document.getElementById('pie-chart-skeleton');
+    const lineElement = document.getElementById('line');
+    const pieWrapper = document.getElementById('pie-wrapper');
+    
+    if (lineChartSkeleton) lineChartSkeleton.style.display = displaySkeleton;
+    if (pieChartSkeleton) pieChartSkeleton.style.display = displaySkeleton;
+    if (lineElement) lineElement.style.display = displayChart;
+    if (pieWrapper) pieWrapper.style.display = displayChart;
 }
 function BindCardClick(): void{
-    document.getElementById("water").onclick = function () {
-        document.querySelector('#polar #pie-title').innerHTML = 'Sunday Activity';
-        document.querySelector("#card-row .selected").classList.remove("selected");
-        document.querySelector("#card-row #water").classList.add("selected");
-        waterclick();
-    };
-    document.getElementById("step").onclick = function () {
-        document.querySelector('#multiple-donut #pie-title').innerHTML = 'Sunday Activity';
-        document.getElementById("chart-title").innerHTML = 'Steps Count';
-        document.querySelector("#card-row .selected").classList.remove("selected");
-        document.querySelector("#card-row #step").classList.add("selected");
-        stepclick();
-    };
-    document.getElementById("sleep").onclick = function () {
-        document.getElementById("chart-title").innerHTML = 'Sleep Tracker';
-        document.querySelector("#card-row .selected").classList.remove("selected");
-        document.querySelector("#card-row #sleep").classList.add("selected");
-        sleepclick();
-    };
-    document.getElementById("calories").onclick = function () {
-        document.getElementById("chart-title").innerHTML = 'Calories Consumed';
-        document.querySelector("#card-row .selected").classList.remove("selected");
-        document.querySelector("#card-row #calories").classList.add("selected");
-        caloriesclick();
-    };
+    const waterElement = document.getElementById("water");
+    const stepElement = document.getElementById("step");
+    const sleepElement = document.getElementById("sleep");
+    const caloriesElement = document.getElementById("calories");
+    
+    if (waterElement) {
+        waterElement.onclick = function () {
+            const pieTitle = document.querySelector('#polar #pie-title');
+            const selected = document.querySelector("#card-row .selected");
+            const waterSelected = document.querySelector("#card-row #water");
+            
+            if (pieTitle) pieTitle.innerHTML = 'Sunday Activity';
+            if (selected) selected.classList.remove("selected");
+            if (waterSelected) waterSelected.classList.add("selected");
+            waterclick();
+        };
+    }
+    
+    if (stepElement) {
+        stepElement.onclick = function () {
+            const pieTitle = document.querySelector('#multiple-donut #pie-title');
+            const chartTitle = document.getElementById("chart-title");
+            const selected = document.querySelector("#card-row .selected");
+            const stepSelected = document.querySelector("#card-row #step");
+            
+            if (pieTitle) pieTitle.innerHTML = 'Sunday Activity';
+            if (chartTitle) chartTitle.innerHTML = 'Steps Count';
+            if (selected) selected.classList.remove("selected");
+            if (stepSelected) stepSelected.classList.add("selected");
+            stepclick();
+        };
+    }
+    
+    if (sleepElement) {
+        sleepElement.onclick = function () {
+            const chartTitle = document.getElementById("chart-title");
+            const selected = document.querySelector("#card-row .selected");
+            const sleepSelected = document.querySelector("#card-row #sleep");
+            
+            if (chartTitle) chartTitle.innerHTML = 'Sleep Tracker';
+            if (selected) selected.classList.remove("selected");
+            if (sleepSelected) sleepSelected.classList.add("selected");
+            sleepclick();
+        };
+    }
+    
+    if (caloriesElement) {
+        caloriesElement.onclick = function () {
+            const chartTitle = document.getElementById("chart-title");
+            const selected = document.querySelector("#card-row .selected");
+            const caloriesSelected = document.querySelector("#card-row #calories");
+            
+            if (chartTitle) chartTitle.innerHTML = 'Calories Consumed';
+            if (selected) selected.classList.remove("selected");
+            if (caloriesSelected) caloriesSelected.classList.add("selected");
+            caloriesclick();
+        };
+    }
 }
 // tslint:disable-next-line:max-func-body-length
 function InitializeCaloriesComponent(): void {
@@ -328,121 +380,209 @@ function InitializeCaloriesComponent(): void {
             enable: true, header: '${point.x}', format: '${point.y}<br>Click to View More Details',
         },
         loaded: (args: ILoadedEventArgs) => {
-            document.getElementById("Break-icon").onclick = function () {
-                document.getElementById("Breakfast").style.color = '#FFFFFF';
-                document.getElementById("Lunch").style.color = '#7D7D7D';
-                document.getElementById("Dinner").style.color = '#7D7D7D';
-                document.getElementById("Snack").style.color = '#7D7D7D';
-                document.getElementById("Breakfast").className = 'icon-Breakfast breakimgactive';
-                document.getElementById("Lunch").className = 'icon-Lunch lunchimg';
-                document.getElementById("Dinner").className = 'icon-Dinner dinnerimg';
-                document.getElementById("Snack").className = 'icon-Snack snackimg';
-                document.getElementById("Break-icon").style.backgroundImage = 'linear-gradient(45deg, #EF9027 0%, #F23B3B 100%)';
-                document.getElementById("Lunch-icon").style.backgroundImage = null;
-                document.getElementById("Dinner-icon").style.backgroundImage = null;
-                document.getElementById("Snack-icon").style.backgroundImage = null;
-                document.getElementById("Break-text").className = "breaktextactive";
-                document.getElementById("Lunch-text").className = "lunchtext";
-                document.getElementById("Dinner-text").className = "dinnertext";
-                document.getElementById("Snack-text").className = "snacktext";
-                document.getElementById("Break-text").style.color = '#FFFFFF';
-                document.getElementById("Lunch-text").style.color = '#7D7D7D';
-                document.getElementById("Dinner-text").style.color = '#7D7D7D';
-                document.getElementById("Snack-text").style.color = '#7D7D7D';
-                document.getElementById("fat_value").innerHTML = '30g';
-                document.getElementById("fibre_value").innerHTML = '30g';
-                document.getElementById("carbs_value").innerHTML = '130g';
-                document.getElementById("calcium_value").innerHTML = '260g';
-                document.getElementById("protein_value").innerHTML = '40g';
-                document.getElementById("vitamins_value").innerHTML = '60g';
-                pieChartObj.series[0].dataSource = (<{ Breakfast: Object[] }>Sunday[0]).Breakfast;
+            const breakIcon = document.getElementById("Break-icon");
+            if (breakIcon) {
+                breakIcon.onclick = function () {
+                    const breakfast = document.getElementById("Breakfast");
+                    const lunch = document.getElementById("Lunch");
+                    const dinner = document.getElementById("Dinner");
+                    const snack = document.getElementById("Snack");
+                    const breakIconEl = document.getElementById("Break-icon");
+                    const lunchIcon = document.getElementById("Lunch-icon");
+                    const dinnerIcon = document.getElementById("Dinner-icon");
+                    const snackIcon = document.getElementById("Snack-icon");
+                    const breakText = document.getElementById("Break-text");
+                    const lunchText = document.getElementById("Lunch-text");
+                    const dinnerText = document.getElementById("Dinner-text");
+                    const snackText = document.getElementById("Snack-text");
+                    const fatValue = document.getElementById("fat_value");
+                    const fibreValue = document.getElementById("fibre_value");
+                    const carbsValue = document.getElementById("carbs_value");
+                    const calciumValue = document.getElementById("calcium_value");
+                    const proteinValue = document.getElementById("protein_value");
+                    const vitaminsValue = document.getElementById("vitamins_value");
+                    
+                    if (breakfast) breakfast.style.color = '#FFFFFF';
+                    if (lunch) lunch.style.color = '#7D7D7D';
+                    if (dinner) dinner.style.color = '#7D7D7D';
+                    if (snack) snack.style.color = '#7D7D7D';
+                    if (breakfast) breakfast.className = 'icon-Breakfast breakimgactive';
+                    if (lunch) lunch.className = 'icon-Lunch lunchimg';
+                    if (dinner) dinner.className = 'icon-Dinner dinnerimg';
+                    if (snack) snack.className = 'icon-Snack snackimg';
+                    if (breakIconEl) breakIconEl.style.backgroundImage = 'linear-gradient(45deg, #EF9027 0%, #F23B3B 100%)';
+                    if (lunchIcon) lunchIcon.style.backgroundImage = 'none';
+                    if (dinnerIcon) dinnerIcon.style.backgroundImage = 'none';
+                    if (snackIcon) snackIcon.style.backgroundImage = 'none';
+                    if (breakText) breakText.className = "breaktextactive";
+                    if (lunchText) lunchText.className = "lunchtext";
+                    if (dinnerText) dinnerText.className = "dinnertext";
+                    if (snackText) snackText.className = "snacktext";
+                    if (breakText) breakText.style.color = '#FFFFFF';
+                    if (lunchText) lunchText.style.color = '#7D7D7D';
+                    if (dinnerText) dinnerText.style.color = '#7D7D7D';
+                    if (snackText) snackText.style.color = '#7D7D7D';
+                    if (fatValue) fatValue.innerHTML = '30g';
+                    if (fibreValue) fibreValue.innerHTML = '30g';
+                    if (carbsValue) carbsValue.innerHTML = '130g';
+                    if (calciumValue) calciumValue.innerHTML = '260g';
+                    if (proteinValue) proteinValue.innerHTML = '40g';
+                    if (vitaminsValue) vitaminsValue.innerHTML = '60g';
+                    pieChartObj.series[0].dataSource = (<{ Breakfast: Object[] }>Sunday[0]).Breakfast;
+                }
             }
-            document.getElementById("Lunch-icon").onclick = function () {
-                document.getElementById("Breakfast").style.color = '#7D7D7D';
-                document.getElementById("Lunch").style.color = '#FFFFFF';
-                document.getElementById("Dinner").style.color = '#7D7D7D';
-                document.getElementById("Snack").style.color = '#7D7D7D';
-                document.getElementById("Breakfast").className = 'icon-Breakfast breakimg';
-                document.getElementById("Lunch").className = 'icon-Lunch lunchimgactive';
-                document.getElementById("Dinner").className = 'icon-Dinner dinnerimg';
-                document.getElementById("Snack").className = 'icon-Snack snackimg';
-                document.getElementById("Break-text").className = "breaktext";
-                document.getElementById("Lunch-text").className = "lunchtextactive";
-                document.getElementById("Dinner-text").className = "dinnertext";
-                document.getElementById("Snack-text").className = "snacktext";
-                document.getElementById("Break-text").style.color = '#7D7D7D';
-                document.getElementById("Lunch-text").style.color = '#FFFFFF';
-                document.getElementById("Dinner-text").style.color = '#7D7D7D';
-                document.getElementById("Snack-text").style.color = '#7D7D7D';
-                document.getElementById("Break-icon").style.backgroundImage = null;
-                document.getElementById("Dinner-icon").style.backgroundImage = null;
-                document.getElementById("Snack-icon").style.backgroundImage = null;
-                document.getElementById("Lunch-icon").style.backgroundImage = 'linear-gradient(45deg, #EF9027 0%, #F23B3B 100%)';
-                document.getElementById("fat_value").innerHTML = '20g';
-                document.getElementById("fibre_value").innerHTML = '10g';
-                document.getElementById("carbs_value").innerHTML = '90g';
-                document.getElementById("calcium_value").innerHTML = '120g';
-                document.getElementById("protein_value").innerHTML = '30g';
-                document.getElementById("vitamins_value").innerHTML = '40g';
-                pieChartObj.series[0].dataSource = (<{ Lunch: Object[] }>Sunday[0]).Lunch;
+            const lunchIcon = document.getElementById("Lunch-icon");
+            if (lunchIcon) {
+                lunchIcon.onclick = function () {
+                    const breakfast = document.getElementById("Breakfast");
+                    const lunch = document.getElementById("Lunch");
+                    const dinner = document.getElementById("Dinner");
+                    const snack = document.getElementById("Snack");
+                    const breakText = document.getElementById("Break-text");
+                    const lunchText = document.getElementById("Lunch-text");
+                    const dinnerText = document.getElementById("Dinner-text");
+                    const snackText = document.getElementById("Snack-text");
+                    const breakIcon = document.getElementById("Break-icon");
+                    const dinnerIcon = document.getElementById("Dinner-icon");
+                    const snackIcon = document.getElementById("Snack-icon");
+                    const lunchIconEl = document.getElementById("Lunch-icon");
+                    const fatValue = document.getElementById("fat_value");
+                    const fibreValue = document.getElementById("fibre_value");
+                    const carbsValue = document.getElementById("carbs_value");
+                    const calciumValue = document.getElementById("calcium_value");
+                    const proteinValue = document.getElementById("protein_value");
+                    const vitaminsValue = document.getElementById("vitamins_value");
+                    
+                    if (breakfast) breakfast.style.color = '#7D7D7D';
+                    if (lunch) lunch.style.color = '#FFFFFF';
+                    if (dinner) dinner.style.color = '#7D7D7D';
+                    if (snack) snack.style.color = '#7D7D7D';
+                    if (breakfast) breakfast.className = 'icon-Breakfast breakimg';
+                    if (lunch) lunch.className = 'icon-Lunch lunchimgactive';
+                    if (dinner) dinner.className = 'icon-Dinner dinnerimg';
+                    if (snack) snack.className = 'icon-Snack snackimg';
+                    if (breakText) breakText.className = "breaktext";
+                    if (lunchText) lunchText.className = "lunchtextactive";
+                    if (dinnerText) dinnerText.className = "dinnertext";
+                    if (snackText) snackText.className = "snacktext";
+                    if (breakText) breakText.style.color = '#7D7D7D';
+                    if (lunchText) lunchText.style.color = '#FFFFFF';
+                    if (dinnerText) dinnerText.style.color = '#7D7D7D';
+                    if (snackText) snackText.style.color = '#7D7D7D';
+                    if (breakIcon) breakIcon.style.backgroundImage = 'none';
+                    if (dinnerIcon) dinnerIcon.style.backgroundImage = 'none';
+                    if (snackIcon) snackIcon.style.backgroundImage = 'none';
+                    if (lunchIconEl) lunchIconEl.style.backgroundImage = 'linear-gradient(45deg, #EF9027 0%, #F23B3B 100%)';
+                    if (fatValue) fatValue.innerHTML = '20g';
+                    if (fibreValue) fibreValue.innerHTML = '10g';
+                    if (carbsValue) carbsValue.innerHTML = '90g';
+                    if (calciumValue) calciumValue.innerHTML = '120g';
+                    if (proteinValue) proteinValue.innerHTML = '30g';
+                    if (vitaminsValue) vitaminsValue.innerHTML = '40g';
+                    pieChartObj.series[0].dataSource = (<{ Lunch: Object[] }>Sunday[0]).Lunch;
+                }
             }
-            document.getElementById("Dinner-icon").onclick = function () {
-                document.getElementById("Breakfast").style.color = '#7D7D7D';
-                document.getElementById("Lunch").style.color = '#7D7D7D';
-                document.getElementById("Dinner").style.color = '#FFFFFF';
-                document.getElementById("Snack").style.color = '#7D7D7D';
-                document.getElementById("Breakfast").className = 'icon-Breakfast breakimg';
-                document.getElementById("Lunch").className = 'icon-Lunch lunchimg';
-                document.getElementById("Dinner").className = 'icon-Dinner dinnerimgactive';
-                document.getElementById("Snack").className = 'icon-Snack snackimg';
-                document.getElementById("Break-text").className = "breaktext";
-                document.getElementById("Lunch-text").className = "lunchtext";
-                document.getElementById("Dinner-text").className = "dinnertextactive";
-                document.getElementById("Snack-text").className = "snacktext";
-                document.getElementById("Break-text").style.color = '#7D7D7D';
-                document.getElementById("Lunch-text").style.color = '#7D7D7D';
-                document.getElementById("Dinner-text").style.color = '#FFFFFF';
-                document.getElementById("Snack-text").style.color = '#7D7D7D';
-                document.getElementById("Break-icon").style.backgroundImage = null;
-                document.getElementById("Lunch-icon").style.backgroundImage = null;
-                document.getElementById("Snack-icon").style.backgroundImage = null;
-                document.getElementById("Dinner-icon").style.backgroundImage = 'linear-gradient(45deg, #EF9027 0%, #F23B3B 100%)';
-                document.getElementById("fat_value").innerHTML = '50g';
-                document.getElementById("fibre_value").innerHTML = '40g';
-                document.getElementById("carbs_value").innerHTML = '80g';
-                document.getElementById("calcium_value").innerHTML = '110g';
-                document.getElementById("protein_value").innerHTML = '30g';
-                document.getElementById("vitamins_value").innerHTML = '20g';
-                pieChartObj.series[0].dataSource = (<{ Dinner: Object[] }>Sunday[0]).Dinner;
+            const dinnerIcon = document.getElementById("Dinner-icon");
+            if (dinnerIcon) {
+                dinnerIcon.onclick = function () {
+                    const breakfast = document.getElementById("Breakfast");
+                    const lunch = document.getElementById("Lunch");
+                    const dinner = document.getElementById("Dinner");
+                    const snack = document.getElementById("Snack");
+                    const breakText = document.getElementById("Break-text");
+                    const lunchText = document.getElementById("Lunch-text");
+                    const dinnerText = document.getElementById("Dinner-text");
+                    const snackText = document.getElementById("Snack-text");
+                    const breakIcon = document.getElementById("Break-icon");
+                    const lunchIcon = document.getElementById("Lunch-icon");
+                    const snackIcon = document.getElementById("Snack-icon");
+                    const dinnerIconEl = document.getElementById("Dinner-icon");
+                    const fatValue = document.getElementById("fat_value");
+                    const fibreValue = document.getElementById("fibre_value");
+                    const carbsValue = document.getElementById("carbs_value");
+                    const calciumValue = document.getElementById("calcium_value");
+                    const proteinValue = document.getElementById("protein_value");
+                    const vitaminsValue = document.getElementById("vitamins_value");
+                    
+                    if (breakfast) breakfast.style.color = '#7D7D7D';
+                    if (lunch) lunch.style.color = '#7D7D7D';
+                    if (dinner) dinner.style.color = '#FFFFFF';
+                    if (snack) snack.style.color = '#7D7D7D';
+                    if (breakfast) breakfast.className = 'icon-Breakfast breakimg';
+                    if (lunch) lunch.className = 'icon-Lunch lunchimg';
+                    if (dinner) dinner.className = 'icon-Dinner dinnerimgactive';
+                    if (snack) snack.className = 'icon-Snack snackimg';
+                    if (breakText) breakText.className = "breaktext";
+                    if (lunchText) lunchText.className = "lunchtext";
+                    if (dinnerText) dinnerText.className = "dinnertextactive";
+                    if (snackText) snackText.className = "snacktext";
+                    if (breakText) breakText.style.color = '#7D7D7D';
+                    if (lunchText) lunchText.style.color = '#7D7D7D';
+                    if (dinnerText) dinnerText.style.color = '#FFFFFF';
+                    if (snackText) snackText.style.color = '#7D7D7D';
+                    if (breakIcon) breakIcon.style.backgroundImage = 'none';
+                    if (lunchIcon) lunchIcon.style.backgroundImage = 'none';
+                    if (snackIcon) snackIcon.style.backgroundImage = 'none';
+                    if (dinnerIconEl) dinnerIconEl.style.backgroundImage = 'linear-gradient(45deg, #EF9027 0%, #F23B3B 100%)';
+                    if (fatValue) fatValue.innerHTML = '50g';
+                    if (fibreValue) fibreValue.innerHTML = '40g';
+                    if (carbsValue) carbsValue.innerHTML = '80g';
+                    if (calciumValue) calciumValue.innerHTML = '110g';
+                    if (proteinValue) proteinValue.innerHTML = '30g';
+                    if (vitaminsValue) vitaminsValue.innerHTML = '20g';
+                    pieChartObj.series[0].dataSource = (<{ Dinner: Object[] }>Sunday[0]).Dinner;
+                }
             }
-            document.getElementById("Snack-icon").onclick = function () {
-                document.getElementById("Breakfast").style.color = '#7D7D7D';
-                document.getElementById("Lunch").style.color = '#7D7D7D';
-                document.getElementById("Dinner").style.color = '#7D7D7D';
-                document.getElementById("Snack").style.color = '#FFFFFF';
-                document.getElementById("Break-text").className = "breaktext";
-                document.getElementById("Lunch-text").className = "lunchtext";
-                document.getElementById("Dinner-text").className = "dinnertext";
-                document.getElementById("Snack-text").className = "snacktextactive";
-                document.getElementById("Breakfast").className = 'icon-Breakfast breakimg';
-                document.getElementById("Lunch").className = 'icon-Lunch lunchimg';
-                document.getElementById("Dinner").className = 'icon-Dinner dinnerimg';
-                document.getElementById("Snack").className = 'icon-Snack snackimgactive';
-                document.getElementById("Break-text").style.color = '#7D7D7D';
-                document.getElementById("Lunch-text").style.color = '#7D7D7D';
-                document.getElementById("Dinner-text").style.color = '#7D7D7D';
-                document.getElementById("Snack-text").style.color = '#FFFFFF';
-                document.getElementById("Break-icon").style.backgroundImage = null;
-                document.getElementById("Dinner-icon").style.backgroundImage = null;
-                document.getElementById("Lunch-icon").style.backgroundImage = null;
-                document.getElementById("Snack-icon").style.backgroundImage = 'linear-gradient(45deg, #EF9027 0%, #F23B3B 100%)';
-                document.getElementById("fat_value").innerHTML = '30g';
-                document.getElementById("fibre_value").innerHTML = '40g';
-                document.getElementById("carbs_value").innerHTML = '150g';
-                document.getElementById("calcium_value").innerHTML = '220g';
-                document.getElementById("protein_value").innerHTML = '50g';
-                document.getElementById("vitamins_value").innerHTML = '60g';
-                pieChartObj.series[0].dataSource = (<{ Snack: Object[] }>Sunday[0]).Snack;
+            const snackIcon = document.getElementById("Snack-icon");
+            if (snackIcon) {
+                snackIcon.onclick = function () {
+                    const breakfast = document.getElementById("Breakfast");
+                    const lunch = document.getElementById("Lunch");
+                    const dinner = document.getElementById("Dinner");
+                    const snack = document.getElementById("Snack");
+                    const breakText = document.getElementById("Break-text");
+                    const lunchText = document.getElementById("Lunch-text");
+                    const dinnerText = document.getElementById("Dinner-text");
+                    const snackText = document.getElementById("Snack-text");
+                    const breakIcon = document.getElementById("Break-icon");
+                    const dinnerIcon = document.getElementById("Dinner-icon");
+                    const lunchIcon = document.getElementById("Lunch-icon");
+                    const snackIconEl = document.getElementById("Snack-icon");
+                    const fatValue = document.getElementById("fat_value");
+                    const fibreValue = document.getElementById("fibre_value");
+                    const carbsValue = document.getElementById("carbs_value");
+                    const calciumValue = document.getElementById("calcium_value");
+                    const proteinValue = document.getElementById("protein_value");
+                    const vitaminsValue = document.getElementById("vitamins_value");
+                    
+                    if (breakfast) breakfast.style.color = '#7D7D7D';
+                    if (lunch) lunch.style.color = '#7D7D7D';
+                    if (dinner) dinner.style.color = '#7D7D7D';
+                    if (snack) snack.style.color = '#FFFFFF';
+                    if (breakText) breakText.className = "breaktext";
+                    if (lunchText) lunchText.className = "lunchtext";
+                    if (dinnerText) dinnerText.className = "dinnertext";
+                    if (snackText) snackText.className = "snacktextactive";
+                    if (breakfast) breakfast.className = 'icon-Breakfast breakimg';
+                    if (lunch) lunch.className = 'icon-Lunch lunchimg';
+                    if (dinner) dinner.className = 'icon-Dinner dinnerimg';
+                    if (snack) snack.className = 'icon-Snack snackimgactive';
+                    if (breakText) breakText.style.color = '#7D7D7D';
+                    if (lunchText) lunchText.style.color = '#7D7D7D';
+                    if (dinnerText) dinnerText.style.color = '#7D7D7D';
+                    if (snackText) snackText.style.color = '#FFFFFF';
+                    if (breakIcon) breakIcon.style.backgroundImage = 'none';
+                    if (dinnerIcon) dinnerIcon.style.backgroundImage = 'none';
+                    if (lunchIcon) lunchIcon.style.backgroundImage = 'none';
+                    if (snackIconEl) snackIconEl.style.backgroundImage = 'linear-gradient(45deg, #EF9027 0%, #F23B3B 100%)';
+                    if (fatValue) fatValue.innerHTML = '30g';
+                    if (fibreValue) fibreValue.innerHTML = '40g';
+                    if (carbsValue) carbsValue.innerHTML = '150g';
+                    if (calciumValue) calciumValue.innerHTML = '220g';
+                    if (proteinValue) proteinValue.innerHTML = '50g';
+                    if (vitaminsValue) vitaminsValue.innerHTML = '60g';
+                    pieChartObj.series[0].dataSource = (<{ Snack: Object[] }>Sunday[0]).Snack;
+                }
             }
         }
     });
@@ -465,70 +605,105 @@ function InitializeStepsComponent(): void {
             switch (index.point) {
                 case 0:
                     pieChartObj.series[0].dataSource = (<{ Steps: Object[] }>Sunday[0]).Steps;
-                    document.querySelector('#multiple-donut #pie-title').innerHTML = 'Sunday Activity';
-                    document.getElementById("stepstext").innerHTML = '8200';
-                    document.getElementById("exercise").innerHTML = '15';
-                    document.getElementById("active").innerHTML = '7';
+                    const sundayTitle = document.querySelector('#multiple-donut #pie-title');
+                    const stepsText = document.getElementById("stepstext");
+                    const exercise = document.getElementById("exercise");
+                    const active = document.getElementById("active");
+                    
+                    if (sundayTitle) sundayTitle.innerHTML = 'Sunday Activity';
+                    if (stepsText) stepsText.innerHTML = '8200';
+                    if (exercise) exercise.innerHTML = '15';
+                    if (active) active.innerHTML = '7';
                     pieChartObj.annotations[0].content = '<div id="steps-innercontent"><p id="main-value" style="font-family: Roboto; font-weight:500 ;font-size: 28px;color: #313331;letter-spacing: 0;text-align: center; margin:0px">2200</p><p id="step-value" style="font-family: Roboto;font-weight:500;font-size: 14px; color: #535353; letter-spacing: 0;text-align: center;">Calories burnt<p></div>'
                     annotationpie1data = (<{ Exercise: Object[] }>Sunday[0]).Exercise;
                     annotationpie2data = (<{ Hours: Object[] }>Sunday[0]).Hours;
                     break;
                 case 1:
                     pieChartObj.series[0].dataSource = (<{ Steps: Object[] }>Monday[0]).Steps;
-                    document.querySelector('#multiple-donut #pie-title').innerHTML = 'Monday Activity';
-                    document.getElementById("stepstext").innerHTML = '7300';
-                    document.getElementById("exercise").innerHTML = '16';
-                    document.getElementById("active").innerHTML = '6';
+                    const mondayTitle = document.querySelector('#multiple-donut #pie-title');
+                    const stepsTextMon = document.getElementById("stepstext");
+                    const exerciseMon = document.getElementById("exercise");
+                    const activeMon = document.getElementById("active");
+                    
+                    if (mondayTitle) mondayTitle.innerHTML = 'Monday Activity';
+                    if (stepsTextMon) stepsTextMon.innerHTML = '7300';
+                    if (exerciseMon) exerciseMon.innerHTML = '16';
+                    if (activeMon) activeMon.innerHTML = '6';
                     pieChartObj.annotations[0].content = '<div id="steps-innercontent"><p id="main-value" style="font-family: Roboto;font-weight:500; font-size: 28px;color: #313331;letter-spacing: 0;text-align: center; margin:0px">1500</p><p id="step-value" style="font-family: Roboto; font-weight:500; font-size: 14px; color: #535353; letter-spacing: 0;text-align: center;">Calories burnt<p></div>'
                     annotationpie1data = (<{ Exercise: Object[] }>Monday[0]).Exercise;
                     annotationpie2data = (<{ Hours: Object[] }>Monday[0]).Hours;
                     break;
                 case 2:
                     pieChartObj.series[0].dataSource = (<{ Steps: Object[] }>Tuesday[0]).Steps;
-                    document.querySelector('#multiple-donut #pie-title').innerHTML = 'Tuesday Activity';
-                    document.getElementById("stepstext").innerHTML = '7800';
-                    document.getElementById("exercise").innerHTML = '20';
-                    document.getElementById("active").innerHTML = '5';
+                    const tuesdayTitle = document.querySelector('#multiple-donut #pie-title');
+                    const stepsTextTue = document.getElementById("stepstext");
+                    const exerciseTue = document.getElementById("exercise");
+                    const activeTue = document.getElementById("active");
+                    
+                    if (tuesdayTitle) tuesdayTitle.innerHTML = 'Tuesday Activity';
+                    if (stepsTextTue) stepsTextTue.innerHTML = '7800';
+                    if (exerciseTue) exerciseTue.innerHTML = '20';
+                    if (activeTue) activeTue.innerHTML = '5';
                     pieChartObj.annotations[0].content = '<div id="steps-innercontent"><p id="main-value" style="font-family: Roboto; font-weight:500; font-size: 28px;color: #313331;letter-spacing: 0;text-align: center; margin:0px">3300</p><p id="step-value" style="font-family: Roboto; font-weight:500; font-size: 14px; color: #535353; letter-spacing: 0;text-align: center;">Calories burnt<p></div>'
                     annotationpie1data = (<{ Exercise: Object[] }>Tuesday[0]).Exercise;
                     annotationpie2data = (<{ Hours: Object[] }>Tuesday[0]).Hours;
                     break;
                 case 3:
                     pieChartObj.series[0].dataSource = (<{ Steps: Object[] }>Wednesday[0]).Steps;
-                    document.querySelector('#multiple-donut #pie-title').innerHTML = 'Wednesday Activity';
-                    document.getElementById("stepstext").innerHTML = '6800';
-                    document.getElementById("exercise").innerHTML = '16';
-                    document.getElementById("active").innerHTML = '3';
+                    const wednesdayTitle = document.querySelector('#multiple-donut #pie-title');
+                    const stepsTextWed = document.getElementById("stepstext");
+                    const exerciseWed = document.getElementById("exercise");
+                    const activeWed = document.getElementById("active");
+                    
+                    if (wednesdayTitle) wednesdayTitle.innerHTML = 'Wednesday Activity';
+                    if (stepsTextWed) stepsTextWed.innerHTML = '6800';
+                    if (exerciseWed) exerciseWed.innerHTML = '16';
+                    if (activeWed) activeWed.innerHTML = '3';
                     pieChartObj.annotations[0].content = '<div id="steps-innercontent"><p id="main-value" style="font-family: Roboto; font-weight:500; font-size: 28px;color: #313331;letter-spacing: 0;text-align: center; margin:0px">1200</p><p id="step-value" style="font-family: Roboto; font-weight:500; font-size: 14px; color: #535353; letter-spacing: 0;text-align: center;">Calories burnt<p></div>'
                     annotationpie1data = (<{ Exercise: Object[] }>Wednesday[0]).Exercise;
                     annotationpie2data = (<{ Hours: Object[] }>Wednesday[0]).Hours;
                     break;
                 case 4:
                     pieChartObj.series[0].dataSource = (<{ Steps: Object[] }>Thursday[0]).Steps;
-                    document.querySelector('#multiple-donut #pie-title').innerHTML = 'Thursday Activity';
-                    document.getElementById("stepstext").innerHTML = '7000';
-                    document.getElementById("exercise").innerHTML = '10';
-                    document.getElementById("active").innerHTML = '7';
+                    const thursdayTitle = document.querySelector('#multiple-donut #pie-title');
+                    const stepsTextThu = document.getElementById("stepstext");
+                    const exerciseThu = document.getElementById("exercise");
+                    const activeThu = document.getElementById("active");
+                    
+                    if (thursdayTitle) thursdayTitle.innerHTML = 'Thursday Activity';
+                    if (stepsTextThu) stepsTextThu.innerHTML = '7000';
+                    if (exerciseThu) exerciseThu.innerHTML = '10';
+                    if (activeThu) activeThu.innerHTML = '7';
                     pieChartObj.annotations[0].content = '<div id="steps-innercontent"><p id="main-value" style="font-family: Roboto; font-weight:500; font-size: 28px;color: #313331;letter-spacing: 0;text-align: center; margin:0px">1300</p><p id="step-value" style="font-family: Roboto; font-weight:500; font-size: 14px; color: #535353; letter-spacing: 0;text-align: center;">Calories burnt<p></div>'
                     annotationpie1data = (<{ Exercise: Object[] }>Thursday[0]).Exercise;
                     annotationpie2data = (<{ Hours: Object[] }>Thursday[0]).Hours;
                     break;
                 case 5:
                     pieChartObj.series[0].dataSource = (<{ Steps: Object[] }>Friday[0]).Steps;
-                    document.querySelector('#multiple-donut #pie-title').innerHTML = 'Friday Activity';
-                    document.getElementById("stepstext").innerHTML = '6900';
-                    document.getElementById("exercise").innerHTML = '22';
-                    document.getElementById("active").innerHTML = '4';
+                    const fridayTitle = document.querySelector('#multiple-donut #pie-title');
+                    const stepsTextFri = document.getElementById("stepstext");
+                    const exerciseFri = document.getElementById("exercise");
+                    const activeFri = document.getElementById("active");
+                    
+                    if (fridayTitle) fridayTitle.innerHTML = 'Friday Activity';
+                    if (stepsTextFri) stepsTextFri.innerHTML = '6900';
+                    if (exerciseFri) exerciseFri.innerHTML = '22';
+                    if (activeFri) activeFri.innerHTML = '4';
                     pieChartObj.annotations[0].content = '<div id="steps-innercontent"><p id="main-value" style="font-family: Roboto; font-weight:500; font-size: 28px;color: #313331;letter-spacing: 0;text-align: center; margin:0px">1800</p><p id="step-value" style="font-family: Roboto; font-weight:500;font-size: 14px; color: #535353; letter-spacing: 0;text-align: center;">Calories burnt<p></div>'
                     annotationpie1data = (<{ Exercise: Object[] }>Friday[0]).Exercise;
                     annotationpie2data = (<{ Hours: Object[] }>Friday[0]).Hours;
                     break;
                 case 6:
                     pieChartObj.series[0].dataSource = (<{ Steps: Object[] }>Saturday[0]).Steps;
-                    document.querySelector('#multiple-donut #pie-title').innerHTML = 'Saturday Activity';
-                    document.getElementById("stepstext").innerHTML = '7200';
-                    document.getElementById("exercise").innerHTML = '17';
-                    document.getElementById("active").innerHTML = '4';
+                    const saturdayTitle = document.querySelector('#multiple-donut #pie-title');
+                    const stepsTextSat = document.getElementById("stepstext");
+                    const exerciseSat = document.getElementById("exercise");
+                    const activeSat = document.getElementById("active");
+                    
+                    if (saturdayTitle) saturdayTitle.innerHTML = 'Saturday Activity';
+                    if (stepsTextSat) stepsTextSat.innerHTML = '7200';
+                    if (exerciseSat) exerciseSat.innerHTML = '17';
+                    if (activeSat) activeSat.innerHTML = '4';
                     pieChartObj.annotations[0].content = '<div id="steps-innercontent"><p id="main-value" style="font-family: Roboto; font-weight:500; font-size: 28px;color: #313331;letter-spacing: 0;text-align: center; margin:0px">1300</p><p id="step-value" style="font-family: Roboto;font-weight:500; font-size: 14px; color: #535353; letter-spacing: 0;text-align: center;">Calories burnt<p></div>'
                     annotationpie1data = (<{ Exercise: Object[] }>Saturday[0]).Exercise;
                     annotationpie2data = (<{ Hours: Object[] }>Saturday[0]).Hours;
@@ -598,8 +773,8 @@ function InitializeStepsComponent(): void {
                 // Initialize the tooltip
                 tooltip: { enable: false },
                 loaded: (args: IAccLoadedEventArgs) => {
-                    if (document.getElementById("pie-container_border"))
-                        document.getElementById("pie-container_border").style.fill = 'transparent';
+                    const pieBorder = document.getElementById("pie-container_border");
+                    if (pieBorder) pieBorder.style.fill = 'transparent';
                 }
             });
             annotationpie1.appendTo('#pie-container');
@@ -627,8 +802,8 @@ function InitializeStepsComponent(): void {
                 // Initialize the tooltip
                 tooltip: { enable: false },
                 loaded: (args: IAccLoadedEventArgs) => {
-                    if (document.getElementById("inside-container_border"))
-                        document.getElementById("inside-container_border").style.fill = 'transparent';
+                    const insideBorder = document.getElementById("inside-container_border");
+                    if (insideBorder) insideBorder.style.fill = 'transparent';
                 }
             });
             annotationpie2.appendTo('#inside-container');
@@ -696,85 +871,141 @@ function InitializeSleepComponent(): void {
                 case 0:
                     pieChartObj.series[0].dataSource = (<{ sleep: Object[] }>Sunday[0]).sleep;
                     pieChartObj.loaded = (args: IAccLoadedEventArgs) => {
-                        document.getElementById("leftcontent").innerHTML = '10:30 pm';
-                        document.getElementById("rightcontent").innerHTML = '7:30 am';
-                        document.getElementById("time").innerHTML = '9';
-                        document.getElementById("deephour").innerHTML = '5h 24 mins';
-                        document.getElementById("lighthour").innerHTML = '2h 15 mins ';
-                        document.getElementById("awakehour").innerHTML = '27 mins';
-                        document.getElementById("remhour").innerHTML = '54 mins ';
+                        const leftContent = document.getElementById("leftcontent");
+                        const rightContent = document.getElementById("rightcontent");
+                        const time = document.getElementById("time");
+                        const deepHour = document.getElementById("deephour");
+                        const lightHour = document.getElementById("lighthour");
+                        const awakeHour = document.getElementById("awakehour");
+                        const remHour = document.getElementById("remhour");
+                        
+                        if (leftContent) leftContent.innerHTML = '10:30 pm';
+                        if (rightContent) rightContent.innerHTML = '7:30 am';
+                        if (time) time.innerHTML = '9';
+                        if (deepHour) deepHour.innerHTML = '5h 24 mins';
+                        if (lightHour) lightHour.innerHTML = '2h 15 mins ';
+                        if (awakeHour) awakeHour.innerHTML = '27 mins';
+                        if (remHour) remHour.innerHTML = '54 mins ';
                     }
                     break;
                 case 1:
                     pieChartObj.series[0].dataSource = (<{ sleep: Object[] }>Monday[0]).sleep;
                     pieChartObj.loaded = (args: IAccLoadedEventArgs) => {
-                        document.getElementById("leftcontent").innerHTML = '11:40 pm';
-                        document.getElementById("rightcontent").innerHTML = '5:40 am';
-                        document.getElementById("time").innerHTML = '6';
-                        document.getElementById("deephour").innerHTML = '3h 54 mins ';
-                        document.getElementById("lighthour").innerHTML = '1h 22 mins ';
-                        document.getElementById("awakehour").innerHTML = '18 mins';
-                        document.getElementById("remhour").innerHTML = '36 mins ';
+                        const leftContent = document.getElementById("leftcontent");
+                        const rightContent = document.getElementById("rightcontent");
+                        const time = document.getElementById("time");
+                        const deepHour = document.getElementById("deephour");
+                        const lightHour = document.getElementById("lighthour");
+                        const awakeHour = document.getElementById("awakehour");
+                        const remHour = document.getElementById("remhour");
+                        
+                        if (leftContent) leftContent.innerHTML = '11:40 pm';
+                        if (rightContent) rightContent.innerHTML = '5:40 am';
+                        if (time) time.innerHTML = '6';
+                        if (deepHour) deepHour.innerHTML = '3h 54 mins ';
+                        if (lightHour) lightHour.innerHTML = '1h 22 mins ';
+                        if (awakeHour) awakeHour.innerHTML = '18 mins';
+                        if (remHour) remHour.innerHTML = '36 mins ';
                     }
                     break;
                 case 2:
                     pieChartObj.series[0].dataSource = (<{ sleep: Object[] }>Tuesday[0]).sleep;
                     pieChartObj.loaded = (args: IAccLoadedEventArgs) => {
-                        document.getElementById("leftcontent").innerHTML = '9:30 pm';
-                        document.getElementById("rightcontent").innerHTML = '4:30 am';
-                        document.getElementById("time").innerHTML = '6';
-                        document.getElementById("deephour").innerHTML = '3h 54 mins';
-                        document.getElementById("lighthour").innerHTML = '1h 30 mins';
-                        document.getElementById("awakehour").innerHTML = '18 mins';
-                        document.getElementById("remhour").innerHTML = '18 mins';
+                        const leftContent = document.getElementById("leftcontent");
+                        const rightContent = document.getElementById("rightcontent");
+                        const time = document.getElementById("time");
+                        const deepHour = document.getElementById("deephour");
+                        const lightHour = document.getElementById("lighthour");
+                        const awakeHour = document.getElementById("awakehour");
+                        const remHour = document.getElementById("remhour");
+                        
+                        if (leftContent) leftContent.innerHTML = '9:30 pm';
+                        if (rightContent) rightContent.innerHTML = '4:30 am';
+                        if (time) time.innerHTML = '6';
+                        if (deepHour) deepHour.innerHTML = '3h 54 mins';
+                        if (lightHour) lightHour.innerHTML = '1h 30 mins';
+                        if (awakeHour) awakeHour.innerHTML = '18 mins';
+                        if (remHour) remHour.innerHTML = '18 mins';
                     }
                     break;
                 case 3:
                     pieChartObj.series[0].dataSource = (<{ sleep: Object[] }>Wednesday[0]).sleep;
                     pieChartObj.loaded = (args: IAccLoadedEventArgs) => {
-                        document.getElementById("leftcontent").innerHTML = '10:30 pm';
-                        document.getElementById("rightcontent").innerHTML = '6:30 am';
-                        document.getElementById("time").innerHTML = '7';
-                        document.getElementById("deephour").innerHTML = '3h 51 mins';
-                        document.getElementById("lighthour").innerHTML = '2h 06 mins';
-                        document.getElementById("awakehour").innerHTML = '21 mins';
-                        document.getElementById("remhour").innerHTML = '42 mins';
+                        const leftContent = document.getElementById("leftcontent");
+                        const rightContent = document.getElementById("rightcontent");
+                        const time = document.getElementById("time");
+                        const deepHour = document.getElementById("deephour");
+                        const lightHour = document.getElementById("lighthour");
+                        const awakeHour = document.getElementById("awakehour");
+                        const remHour = document.getElementById("remhour");
+                        
+                        if (leftContent) leftContent.innerHTML = '10:30 pm';
+                        if (rightContent) rightContent.innerHTML = '6:30 am';
+                        if (time) time.innerHTML = '7';
+                        if (deepHour) deepHour.innerHTML = '3h 51 mins';
+                        if (lightHour) lightHour.innerHTML = '2h 06 mins';
+                        if (awakeHour) awakeHour.innerHTML = '21 mins';
+                        if (remHour) remHour.innerHTML = '42 mins';
                     }
                     break;
                 case 4:
                     pieChartObj.series[0].dataSource = (<{ sleep: Object[] }>Thursday[0]).sleep;
                     pieChartObj.loaded = (args: IAccLoadedEventArgs) => {
-                        document.getElementById("leftcontent").innerHTML = '11:00 pm';
-                        document.getElementById("rightcontent").innerHTML = '7:00 am';
-                        document.getElementById("time").innerHTML = '8';
-                        document.getElementById("deephour").innerHTML = '4h 48 mins ';
-                        document.getElementById("lighthour").innerHTML = '2h 24 mins ';
-                        document.getElementById("awakehour").innerHTML = '24 mins';
-                        document.getElementById("remhour").innerHTML = '24 mins ';
+                        const leftContent = document.getElementById("leftcontent");
+                        const rightContent = document.getElementById("rightcontent");
+                        const time = document.getElementById("time");
+                        const deepHour = document.getElementById("deephour");
+                        const lightHour = document.getElementById("lighthour");
+                        const awakeHour = document.getElementById("awakehour");
+                        const remHour = document.getElementById("remhour");
+                        
+                        if (leftContent) leftContent.innerHTML = '11:00 pm';
+                        if (rightContent) rightContent.innerHTML = '7:00 am';
+                        if (time) time.innerHTML = '8';
+                        if (deepHour) deepHour.innerHTML = '4h 48 mins ';
+                        if (lightHour) lightHour.innerHTML = '2h 24 mins ';
+                        if (awakeHour) awakeHour.innerHTML = '24 mins';
+                        if (remHour) remHour.innerHTML = '24 mins ';
                     }
                     break;
                 case 5:
                     pieChartObj.series[0].dataSource = (<{ sleep: Object[] }>Friday[0]).sleep;
                     pieChartObj.loaded = (args: IAccLoadedEventArgs) => {
-                        document.getElementById("leftcontent").innerHTML = '11:40 pm';
-                        document.getElementById("rightcontent").innerHTML = '4:40 am';
-                        document.getElementById("time").innerHTML = '5';
-                        document.getElementById("deephour").innerHTML = '3h 45 mins ';
-                        document.getElementById("lighthour").innerHTML = '45 mins ';
-                        document.getElementById("awakehour").innerHTML = '15 mins';
-                        document.getElementById("remhour").innerHTML = '15 mins ';
+                        const leftContent = document.getElementById("leftcontent");
+                        const rightContent = document.getElementById("rightcontent");
+                        const time = document.getElementById("time");
+                        const deepHour = document.getElementById("deephour");
+                        const lightHour = document.getElementById("lighthour");
+                        const awakeHour = document.getElementById("awakehour");
+                        const remHour = document.getElementById("remhour");
+                        
+                        if (leftContent) leftContent.innerHTML = '11:40 pm';
+                        if (rightContent) rightContent.innerHTML = '4:40 am';
+                        if (time) time.innerHTML = '5';
+                        if (deepHour) deepHour.innerHTML = '3h 45 mins ';
+                        if (lightHour) lightHour.innerHTML = '45 mins ';
+                        if (awakeHour) awakeHour.innerHTML = '15 mins';
+                        if (remHour) remHour.innerHTML = '15 mins ';
                     }
                     break;
                 case 6:
                     pieChartObj.series[0].dataSource = (<{ sleep: Object[] }>Saturday[0]).sleep;
                     pieChartObj.loaded = (args: IAccLoadedEventArgs) => {
-                        document.getElementById("leftcontent").innerHTML = '9:40 pm';
-                        document.getElementById("rightcontent").innerHTML = '6:40 am';
-                        document.getElementById("time").innerHTML = '9';
-                        document.getElementById("deephour").innerHTML = '6h 18 mins';
-                        document.getElementById("lighthour").innerHTML = '1h 48 mins ';
-                        document.getElementById("awakehour").innerHTML = '27 mins';
-                        document.getElementById("remhour").innerHTML = '27 mins ';
+                        const leftContent = document.getElementById("leftcontent");
+                        const rightContent = document.getElementById("rightcontent");
+                        const time = document.getElementById("time");
+                        const deepHour = document.getElementById("deephour");
+                        const lightHour = document.getElementById("lighthour");
+                        const awakeHour = document.getElementById("awakehour");
+                        const remHour = document.getElementById("remhour");
+                        
+                        if (leftContent) leftContent.innerHTML = '9:40 pm';
+                        if (rightContent) rightContent.innerHTML = '6:40 am';
+                        if (time) time.innerHTML = '9';
+                        if (deepHour) deepHour.innerHTML = '6h 18 mins';
+                        if (lightHour) lightHour.innerHTML = '1h 48 mins ';
+                        if (awakeHour) awakeHour.innerHTML = '27 mins';
+                        if (remHour) remHour.innerHTML = '27 mins ';
                     }
                     break;
             }
@@ -906,59 +1137,79 @@ function InitializeWaterComponent(): void {
         selectedpoint = true;
         pointindex = args.pointIndex;
         if (getElement(polarChartObj.element.id + '_Series_' + args.seriesIndex + '_Point_' + args.pointIndex)) {
-            document.getElementById("water50ml-column").style.backgroundImage = 'linear-gradient(to right, #2140DC, #00BFD5)';
-            document.getElementById("water100ml-column").style.backgroundImage = null;
-            document.getElementById("water200ml-column").style.backgroundImage = null;
-            document.getElementById("water300ml-column").style.backgroundImage = null;
-            document.getElementById("water50ml-column").className = "col-xs-3 col-sm-3 col-md-3 col-lg-3 water50ml-columnactive";
-            document.getElementById("water100ml-column").className = "col-xs-3 col-sm-3 col-md-3 col-lg-3 water100ml-column";
-            document.getElementById("water200ml-column").className = "col-xs-3 col-sm-3 col-md-3 col-lg-3 water200ml-column";
-            document.getElementById("water300ml-column").className = "col-xs-3 col-sm-3 col-md-3 col-lg-3 water300ml-column";
-            document.getElementById("iconml-img").style.color = '#FFFFFF';
-            document.getElementById("iconml1-img").style.color = '#5B5B5B';
-            document.getElementById("iconml2-img").style.color = '#5B5B5B';
-            document.getElementById("iconml3-img").style.color = '#5B5B5B';
-            document.getElementById("imgtext1").style.color = '#FFFFFF';
-            document.getElementById("imgtext2").style.color = '#5B5B5B';
-            document.getElementById("imgtext3").style.color = '#5B5B5B';
-            document.getElementById("imgtext4").style.color = '#5B5B5B';
-            polarChartObj.series[0].animation.enable = false;
+            const elements = {
+                water50ml: document.getElementById("water50ml-column"),
+                water100ml: document.getElementById("water100ml-column"),
+                water200ml: document.getElementById("water200ml-column"),
+                water300ml: document.getElementById("water300ml-column"),
+                iconml: document.getElementById("iconml-img"),
+                iconml1: document.getElementById("iconml1-img"),
+                iconml2: document.getElementById("iconml2-img"),
+                iconml3: document.getElementById("iconml3-img"),
+                imgtext1: document.getElementById("imgtext1"),
+                imgtext2: document.getElementById("imgtext2"),
+                imgtext3: document.getElementById("imgtext3"),
+                imgtext4: document.getElementById("imgtext4")
+            };
+
+            if (elements.water50ml) elements.water50ml.style.backgroundImage = 'linear-gradient(to right, #2140DC, #00BFD5)';
+            if (elements.water100ml) elements.water100ml.style.backgroundImage = 'none';
+            if (elements.water200ml) elements.water200ml.style.backgroundImage = 'none';
+            if (elements.water300ml) elements.water300ml.style.backgroundImage = 'none';
+            if (elements.water50ml) elements.water50ml.className = "col-xs-3 col-sm-3 col-md-3 col-lg-3 water50ml-columnactive";
+            if (elements.water100ml) elements.water100ml.className = "col-xs-3 col-sm-3 col-md-3 col-lg-3 water100ml-column";
+            if (elements.water200ml) elements.water200ml.className = "col-xs-3 col-sm-3 col-md-3 col-lg-3 water200ml-column";
+            if (elements.water300ml) elements.water300ml.className = "col-xs-3 col-sm-3 col-md-3 col-lg-3 water300ml-column";
+            if (elements.iconml) elements.iconml.style.color = '#FFFFFF';
+            if (elements.iconml1) elements.iconml1.style.color = '#5B5B5B';
+            if (elements.iconml2) elements.iconml2.style.color = '#5B5B5B';
+            if (elements.iconml3) elements.iconml3.style.color = '#5B5B5B';
+            if (elements.imgtext1) elements.imgtext1.style.color = '#FFFFFF';
+            if (elements.imgtext2) elements.imgtext2.style.color = '#5B5B5B';
+            if (elements.imgtext3) elements.imgtext3.style.color = '#5B5B5B';
+            if (elements.imgtext4) elements.imgtext4.style.color = '#5B5B5B';
+            if (polarChartObj.series[0] && polarChartObj.series[0].animation) {
+                polarChartObj.series[0].animation.enable = false;
+            }
         }
     }
     let mouseclick: EmitType<IPointEventArgs> = (args: IPointEventArgs) => {
         selectedpoint = false;
         if (!getElement(linechartObj.element.id + '_Series_' + args.seriesIndex + '_Point_' + args.pointIndex)) {
+            const pieTitle = document.querySelector('#polar #pie-title');
             switch (args.pointIndex) {
                 case 0:
                     polarChartObj.series[0].dataSource = (<{ water: Object[] }>Sunday[0]).water;
-                    document.querySelector('#polar #pie-title').innerHTML = 'Sunday Activity';
+                    if (pieTitle) pieTitle.innerHTML = 'Sunday Activity';
                     break;
                 case 1:
                     polarChartObj.series[0].dataSource = (<{ water: Object[] }>Monday[0]).water;
-                    document.querySelector('#polar #pie-title').innerHTML = 'Monday Activity';
+                    if (pieTitle) pieTitle.innerHTML = 'Monday Activity';
                     break;
                 case 2:
                     polarChartObj.series[0].dataSource = (<{ water: Object[] }>Tuesday[0]).water;
-                    document.querySelector('#polar #pie-title').innerHTML = 'Tuesday Activity';
+                    if (pieTitle) pieTitle.innerHTML = 'Tuesday Activity';
                     break;
                 case 3:
                     polarChartObj.series[0].dataSource = (<{ water: Object[] }>Wednesday[0]).water;
-                    document.querySelector('#polar #pie-title').innerHTML = 'Wednesday Activity';
+                    if (pieTitle) pieTitle.innerHTML = 'Wednesday Activity';
                     break;
                 case 4:
                     polarChartObj.series[0].dataSource = (<{ water: Object[] }>Thursday[0]).water;
-                    document.querySelector('#polar #pie-title').innerHTML = 'Thursday Activity';
+                    if (pieTitle) pieTitle.innerHTML = 'Thursday Activity';
                     break;
                 case 5:
                     polarChartObj.series[0].dataSource = (<{ water: Object[] }>Friday[0]).water;
-                    document.querySelector('#polar #pie-title').innerHTML = 'Friday Activity';
+                    if (pieTitle) pieTitle.innerHTML = 'Friday Activity';
                     break;
                 case 6:
                     polarChartObj.series[0].dataSource = (<{ water: Object[] }>Saturday[0]).water;
-                    document.querySelector('#polar #pie-title').innerHTML = 'Saturday Activity';
+                    if (pieTitle) pieTitle.innerHTML = 'Saturday Activity';
                     break;
             }
-            polarChartObj.series[0].animation.enable = true;
+            if (polarChartObj.series[0] && polarChartObj.series[0].animation) {
+                polarChartObj.series[0].animation.enable = true;
+            }
             polarChartObj.appendTo('#water-polar');
             polarChartObj.refresh();
         }
@@ -1016,92 +1267,192 @@ function InitializeWaterComponent(): void {
         }
     });
     polarChartObj.appendTo('#water-polar');
-    document.getElementById("water50ml-column").onclick = function () {
-            document.getElementById("water50ml-column").style.backgroundImage = 'linear-gradient(to right, #2140DC, #00BFD5)';
-            document.getElementById("water100ml-column").style.backgroundImage = null;
-            document.getElementById("water200ml-column").style.backgroundImage = null;
-            document.getElementById("water300ml-column").style.backgroundImage = null;
-            document.getElementById("water50ml-column").className = "col-xs-3 col-sm-3 col-md-3 col-lg-3 water50ml-columnactive";
-            document.getElementById("water100ml-column").className = "col-xs-3 col-sm-3 col-md-3 col-lg-3 water100ml-column";
-            document.getElementById("water200ml-column").className = "col-xs-3 col-sm-3 col-md-3 col-lg-3 water200ml-column";
-            document.getElementById("water300ml-column").className = "col-xs-3 col-sm-3 col-md-3 col-lg-3 water300ml-column";
-            document.getElementById("iconml-img").style.color = '#FFFFFF';
-            document.getElementById("iconml1-img").style.color = '#5B5B5B';
-            document.getElementById("iconml2-img").style.color = '#5B5B5B';
-            document.getElementById("iconml3-img").style.color = '#5B5B5B';
-            document.getElementById("imgtext1").style.color = '#FFFFFF';
-            document.getElementById("imgtext2").style.color = '#5B5B5B';
-            document.getElementById("imgtext3").style.color = '#5B5B5B';
-            document.getElementById("imgtext4").style.color = '#5B5B5B';
-            polarChartObj.series[0].dataSource[pointindex].y = polarChartObj.series[0].dataSource[pointindex].y + 0.05;
-            polarChartObj.series[0].animation.enable = false;
+    const water50mlColumn = document.getElementById("water50ml-column");
+    if (water50mlColumn) {
+        water50mlColumn.onclick = function () {
+            const elements = {
+                water50ml: document.getElementById("water50ml-column"),
+                water100ml: document.getElementById("water100ml-column"),
+                water200ml: document.getElementById("water200ml-column"),
+                water300ml: document.getElementById("water300ml-column"),
+                iconml: document.getElementById("iconml-img"),
+                iconml1: document.getElementById("iconml1-img"),
+                iconml2: document.getElementById("iconml2-img"),
+                iconml3: document.getElementById("iconml3-img"),
+                imgtext1: document.getElementById("imgtext1"),
+                imgtext2: document.getElementById("imgtext2"),
+                imgtext3: document.getElementById("imgtext3"),
+                imgtext4: document.getElementById("imgtext4")
+            };
+
+            if (elements.water50ml) elements.water50ml.style.backgroundImage = 'linear-gradient(to right, #2140DC, #00BFD5)';
+            if (elements.water100ml) elements.water100ml.style.backgroundImage = 'none';
+            if (elements.water200ml) elements.water200ml.style.backgroundImage = 'none';
+            if (elements.water300ml) elements.water300ml.style.backgroundImage = 'none';
+            if (elements.water50ml) elements.water50ml.className = "col-xs-3 col-sm-3 col-md-3 col-lg-3 water50ml-columnactive";
+            if (elements.water100ml) elements.water100ml.className = "col-xs-3 col-sm-3 col-md-3 col-lg-3 water100ml-column";
+            if (elements.water200ml) elements.water200ml.className = "col-xs-3 col-sm-3 col-md-3 col-lg-3 water200ml-column";
+            if (elements.water300ml) elements.water300ml.className = "col-xs-3 col-sm-3 col-md-3 col-lg-3 water300ml-column";
+            if (elements.iconml) elements.iconml.style.color = '#FFFFFF';
+            if (elements.iconml1) elements.iconml1.style.color = '#5B5B5B';
+            if (elements.iconml2) elements.iconml2.style.color = '#5B5B5B';
+            if (elements.iconml3) elements.iconml3.style.color = '#5B5B5B';
+            if (elements.imgtext1) elements.imgtext1.style.color = '#FFFFFF';
+            if (elements.imgtext2) elements.imgtext2.style.color = '#5B5B5B';
+            if (elements.imgtext3) elements.imgtext3.style.color = '#5B5B5B';
+            if (elements.imgtext4) elements.imgtext4.style.color = '#5B5B5B';
+            if (polarChartObj.series[0] && polarChartObj.series[0].dataSource && Array.isArray(polarChartObj.series[0].dataSource) && polarChartObj.series[0].dataSource[pointindex]) {
+                const dataPoint = polarChartObj.series[0].dataSource[pointindex] as any;
+                if (dataPoint && typeof dataPoint.y === 'number') {
+                    dataPoint.y = dataPoint.y + 0.05;
+                }
+            }
+            if (polarChartObj.series[0] && polarChartObj.series[0].animation) {
+                polarChartObj.series[0].animation.enable = false;
+            }
             polarChartObj.animateSeries = false;
             polarChartObj.enableAnimation = false;
             polarChartObj.appendTo('#water-polar');
+        }
     }
-    document.getElementById("water100ml-column").onclick = function () {
-            document.getElementById("water100ml-column").style.backgroundImage = 'linear-gradient(to right, #2140DC, #00BFD5)';
-            document.getElementById("water50ml-column").style.backgroundImage = null;
-            document.getElementById("water200ml-column").style.backgroundImage = null;
-            document.getElementById("water300ml-column").style.backgroundImage = null;
-            document.getElementById("water50ml-column").className = "col-xs-3 col-sm-3 col-md-3 col-lg-3 water50ml-column";
-            document.getElementById("water100ml-column").className = "col-xs-3 col-sm-3 col-md-3 col-lg-3 water100ml-columnactive";
-            document.getElementById("water200ml-column").className = "col-xs-3 col-sm-3 col-md-3 col-lg-3 water200ml-column";
-            document.getElementById("water300ml-column").className = "col-xs-3 col-sm-3 col-md-3 col-lg-3 water300ml-column";
-            document.getElementById("iconml-img").style.color = '#5B5B5B';
-            document.getElementById("iconml1-img").style.color = '#FFFFFF';
-            document.getElementById("iconml2-img").style.color = '#5B5B5B';
-            document.getElementById("iconml3-img").style.color = '#5B5B5B';
-            document.getElementById("imgtext2").style.color = '#FFFFFF';
-            document.getElementById("imgtext1").style.color = '#5B5B5B';
-            document.getElementById("imgtext3").style.color = '#5B5B5B';
-            document.getElementById("imgtext4").style.color = '#5B5B5B';
-            polarChartObj.series[0].animation.enable = false;
-            polarChartObj.series[0].dataSource[pointindex].y = polarChartObj.series[0].dataSource[pointindex].y + 0.1;
+    const water100mlColumn = document.getElementById("water100ml-column");
+    if (water100mlColumn) {
+        water100mlColumn.onclick = function () {
+            const elements = {
+                water50ml: document.getElementById("water50ml-column"),
+                water100ml: document.getElementById("water100ml-column"),
+                water200ml: document.getElementById("water200ml-column"),
+                water300ml: document.getElementById("water300ml-column"),
+                iconml: document.getElementById("iconml-img"),
+                iconml1: document.getElementById("iconml1-img"),
+                iconml2: document.getElementById("iconml2-img"),
+                iconml3: document.getElementById("iconml3-img"),
+                imgtext1: document.getElementById("imgtext1"),
+                imgtext2: document.getElementById("imgtext2"),
+                imgtext3: document.getElementById("imgtext3"),
+                imgtext4: document.getElementById("imgtext4")
+            };
+
+            if (elements.water100ml) elements.water100ml.style.backgroundImage = 'linear-gradient(to right, #2140DC, #00BFD5)';
+            if (elements.water50ml) elements.water50ml.style.backgroundImage = 'none';
+            if (elements.water200ml) elements.water200ml.style.backgroundImage = 'none';
+            if (elements.water300ml) elements.water300ml.style.backgroundImage = 'none';
+            if (elements.water50ml) elements.water50ml.className = "col-xs-3 col-sm-3 col-md-3 col-lg-3 water50ml-column";
+            if (elements.water100ml) elements.water100ml.className = "col-xs-3 col-sm-3 col-md-3 col-lg-3 water100ml-columnactive";
+            if (elements.water200ml) elements.water200ml.className = "col-xs-3 col-sm-3 col-md-3 col-lg-3 water200ml-column";
+            if (elements.water300ml) elements.water300ml.className = "col-xs-3 col-sm-3 col-md-3 col-lg-3 water300ml-column";
+            if (elements.iconml) elements.iconml.style.color = '#5B5B5B';
+            if (elements.iconml1) elements.iconml1.style.color = '#FFFFFF';
+            if (elements.iconml2) elements.iconml2.style.color = '#5B5B5B';
+            if (elements.iconml3) elements.iconml3.style.color = '#5B5B5B';
+            if (elements.imgtext2) elements.imgtext2.style.color = '#FFFFFF';
+            if (elements.imgtext1) elements.imgtext1.style.color = '#5B5B5B';
+            if (elements.imgtext3) elements.imgtext3.style.color = '#5B5B5B';
+            if (elements.imgtext4) elements.imgtext4.style.color = '#5B5B5B';
+            if (polarChartObj.series[0] && polarChartObj.series[0].animation) {
+                polarChartObj.series[0].animation.enable = false;
+            }
+            if (polarChartObj.series[0] && polarChartObj.series[0].dataSource && Array.isArray(polarChartObj.series[0].dataSource) && polarChartObj.series[0].dataSource[pointindex]) {
+                const dataPoint = polarChartObj.series[0].dataSource[pointindex] as any;
+                if (dataPoint && typeof dataPoint.y === 'number') {
+                    dataPoint.y = dataPoint.y + 0.1;
+                }
+            }
             polarChartObj.enableAnimation = false;
             polarChartObj.appendTo('#water-polar');
+        }
     }
-    document.getElementById("water200ml-column").onclick = function () {
-            document.getElementById("water200ml-column").style.backgroundImage = 'linear-gradient(to right, #2140DC, #00BFD5)';
-            document.getElementById("water100ml-column").style.backgroundImage = null;
-            document.getElementById("water50ml-column").style.backgroundImage = null;
-            document.getElementById("water300ml-column").style.backgroundImage = null;
-            document.getElementById("water50ml-column").className = "col-xs-3 col-sm-3 col-md-3 col-lg-3 water50ml-column";
-            document.getElementById("water100ml-column").className = "col-xs-3 col-sm-3 col-md-3 col-lg-3 water100ml-column";
-            document.getElementById("water200ml-column").className = "col-xs-3 col-sm-3 col-md-3 col-lg-3 water200ml-columnactive";
-            document.getElementById("water300ml-column").className = "col-xs-3 col-sm-3 col-md-3 col-lg-3 water300ml-column";
-            document.getElementById("iconml-img").style.color = '#5B5B5B';
-            document.getElementById("iconml1-img").style.color = '#5B5B5B';
-            document.getElementById("iconml2-img").style.color = '#FFFFFF';
-            document.getElementById("iconml3-img").style.color = '#5B5B5B';
-            document.getElementById("imgtext3").style.color = '#FFFFFF';
-            document.getElementById("imgtext2").style.color = '#5B5B5B';
-            document.getElementById("imgtext1").style.color = '#5B5B5B';
-            document.getElementById("imgtext4").style.color = '#5B5B5B';
-            polarChartObj.series[0].animation.enable = false;
-            polarChartObj.series[0].dataSource[pointindex].y = polarChartObj.series[0].dataSource[pointindex].y + 0.2;
+    const water200mlColumn = document.getElementById("water200ml-column");
+    if (water200mlColumn) {
+        water200mlColumn.onclick = function () {
+            const elements = {
+                water50ml: document.getElementById("water50ml-column"),
+                water100ml: document.getElementById("water100ml-column"),
+                water200ml: document.getElementById("water200ml-column"),
+                water300ml: document.getElementById("water300ml-column"),
+                iconml: document.getElementById("iconml-img"),
+                iconml1: document.getElementById("iconml1-img"),
+                iconml2: document.getElementById("iconml2-img"),
+                iconml3: document.getElementById("iconml3-img"),
+                imgtext1: document.getElementById("imgtext1"),
+                imgtext2: document.getElementById("imgtext2"),
+                imgtext3: document.getElementById("imgtext3"),
+                imgtext4: document.getElementById("imgtext4")
+            };
+
+            if (elements.water200ml) elements.water200ml.style.backgroundImage = 'linear-gradient(to right, #2140DC, #00BFD5)';
+            if (elements.water100ml) elements.water100ml.style.backgroundImage = 'none';
+            if (elements.water50ml) elements.water50ml.style.backgroundImage = 'none';
+            if (elements.water300ml) elements.water300ml.style.backgroundImage = 'none';
+            if (elements.water50ml) elements.water50ml.className = "col-xs-3 col-sm-3 col-md-3 col-lg-3 water50ml-column";
+            if (elements.water100ml) elements.water100ml.className = "col-xs-3 col-sm-3 col-md-3 col-lg-3 water100ml-column";
+            if (elements.water200ml) elements.water200ml.className = "col-xs-3 col-sm-3 col-md-3 col-lg-3 water200ml-columnactive";
+            if (elements.water300ml) elements.water300ml.className = "col-xs-3 col-sm-3 col-md-3 col-lg-3 water300ml-column";
+            if (elements.iconml) elements.iconml.style.color = '#5B5B5B';
+            if (elements.iconml1) elements.iconml1.style.color = '#5B5B5B';
+            if (elements.iconml2) elements.iconml2.style.color = '#FFFFFF';
+            if (elements.iconml3) elements.iconml3.style.color = '#5B5B5B';
+            if (elements.imgtext3) elements.imgtext3.style.color = '#FFFFFF';
+            if (elements.imgtext2) elements.imgtext2.style.color = '#5B5B5B';
+            if (elements.imgtext1) elements.imgtext1.style.color = '#5B5B5B';
+            if (elements.imgtext4) elements.imgtext4.style.color = '#5B5B5B';
+            if (polarChartObj.series[0] && polarChartObj.series[0].animation) {
+                polarChartObj.series[0].animation.enable = false;
+            }
+            if (polarChartObj.series[0] && polarChartObj.series[0].dataSource && Array.isArray(polarChartObj.series[0].dataSource) && polarChartObj.series[0].dataSource[pointindex]) {
+                const dataPoint = polarChartObj.series[0].dataSource[pointindex] as any;
+                if (dataPoint && typeof dataPoint.y === 'number') {
+                    dataPoint.y = dataPoint.y + 0.2;
+                }
+            }
             polarChartObj.appendTo('#water-polar');
+        }
     }
-    document.getElementById("water300ml-column").onclick = function () {
-            document.getElementById("water300ml-column").style.backgroundImage = 'linear-gradient(to right, #2140DC, #00BFD5)';
-            document.getElementById("water100ml-column").style.backgroundImage = null;
-            document.getElementById("water200ml-column").style.backgroundImage = null;
-            document.getElementById("water50ml-column").style.backgroundImage = null;
-            document.getElementById("water50ml-column").className = "col-xs-3 col-sm-3 col-md-3 col-lg-3 water50ml-column";
-            document.getElementById("water100ml-column").className = "col-xs-3 col-sm-3 col-md-3 col-lg-3 water100ml-column";
-            document.getElementById("water200ml-column").className = "col-xs-3 col-sm-3 col-md-3 col-lg-3 water200ml-column";
-            document.getElementById("water300ml-column").className = "col-xs-3 col-sm-3 col-md-3 col-lg-3 water300ml-columnactive";
-            document.getElementById("iconml-img").style.color = '#5B5B5B';
-            document.getElementById("iconml1-img").style.color = '#5B5B5B';
-            document.getElementById("iconml2-img").style.color = '#5B5B5B';
-            document.getElementById("iconml3-img").style.color = '#FFFFFF';
-            document.getElementById("imgtext4").style.color = '#FFFFFF';
-            document.getElementById("imgtext2").style.color = '#5B5B5B';
-            document.getElementById("imgtext3").style.color = '#5B5B5B';
-            document.getElementById("imgtext1").style.color = '#5B5B5B';
-            polarChartObj.series[0].animation.enable = false;
-            polarChartObj.series[0].dataSource[pointindex].y = polarChartObj.series[0].dataSource[pointindex].y + 0.5;
+    const water300mlColumn = document.getElementById("water300ml-column");
+    if (water300mlColumn) {
+        water300mlColumn.onclick = function () {
+            const elements = {
+                water50ml: document.getElementById("water50ml-column"),
+                water100ml: document.getElementById("water100ml-column"),
+                water200ml: document.getElementById("water200ml-column"),
+                water300ml: document.getElementById("water300ml-column"),
+                iconml: document.getElementById("iconml-img"),
+                iconml1: document.getElementById("iconml1-img"),
+                iconml2: document.getElementById("iconml2-img"),
+                iconml3: document.getElementById("iconml3-img"),
+                imgtext1: document.getElementById("imgtext1"),
+                imgtext2: document.getElementById("imgtext2"),
+                imgtext3: document.getElementById("imgtext3"),
+                imgtext4: document.getElementById("imgtext4")
+            };
+
+            if (elements.water300ml) elements.water300ml.style.backgroundImage = 'linear-gradient(to right, #2140DC, #00BFD5)';
+            if (elements.water100ml) elements.water100ml.style.backgroundImage = 'none';
+            if (elements.water200ml) elements.water200ml.style.backgroundImage = 'none';
+            if (elements.water50ml) elements.water50ml.style.backgroundImage = 'none';
+            if (elements.water50ml) elements.water50ml.className = "col-xs-3 col-sm-3 col-md-3 col-lg-3 water50ml-column";
+            if (elements.water100ml) elements.water100ml.className = "col-xs-3 col-sm-3 col-md-3 col-lg-3 water100ml-column";
+            if (elements.water200ml) elements.water200ml.className = "col-xs-3 col-sm-3 col-md-3 col-lg-3 water200ml-column";
+            if (elements.water300ml) elements.water300ml.className = "col-xs-3 col-sm-3 col-md-3 col-lg-3 water300ml-columnactive";
+            if (elements.iconml) elements.iconml.style.color = '#5B5B5B';
+            if (elements.iconml1) elements.iconml1.style.color = '#5B5B5B';
+            if (elements.iconml2) elements.iconml2.style.color = '#5B5B5B';
+            if (elements.iconml3) elements.iconml3.style.color = '#FFFFFF';
+            if (elements.imgtext4) elements.imgtext4.style.color = '#FFFFFF';
+            if (elements.imgtext2) elements.imgtext2.style.color = '#5B5B5B';
+            if (elements.imgtext3) elements.imgtext3.style.color = '#5B5B5B';
+            if (elements.imgtext1) elements.imgtext1.style.color = '#5B5B5B';
+            if (polarChartObj.series[0] && polarChartObj.series[0].animation) {
+                polarChartObj.series[0].animation.enable = false;
+            }
+            if (polarChartObj.series[0] && polarChartObj.series[0].dataSource && Array.isArray(polarChartObj.series[0].dataSource) && polarChartObj.series[0].dataSource[pointindex]) {
+                const dataPoint = polarChartObj.series[0].dataSource[pointindex] as any;
+                if (dataPoint && typeof dataPoint.y === 'number') {
+                    dataPoint.y = dataPoint.y + 0.5;
+                }
+            }
             polarChartObj.appendTo('#water-polar');
+        }
     }
     polarChartObj.refresh();
 
@@ -1168,84 +1519,155 @@ function waterclick(): void {
     annotation = false;
     selectedpoint = false;
     ToggleVisibility('block', 'none');
-    document.getElementById("water50ml-column").style.backgroundImage = 'linear-gradient(to right, #2140DC, #00BFD5)';
-    document.getElementById("water100ml-column").style.backgroundImage = null;
-    document.getElementById("water200ml-column").style.backgroundImage = null;
-    document.getElementById("water300ml-column").style.backgroundImage = null;
-    document.getElementById("water50ml-column").className = "col-xs-3 col-sm-3 col-md-3 col-lg-3 water50ml-columnactive";
-    document.getElementById("water100ml-column").className = "col-xs-3 col-sm-3 col-md-3 col-lg-3 water100ml-column";
-    document.getElementById("water200ml-column").className = "col-xs-3 col-sm-3 col-md-3 col-lg-3 water200ml-column";
-    document.getElementById("water300ml-column").className = "col-xs-3 col-sm-3 col-md-3 col-lg-3 water300ml-column";
-    document.getElementById("imgtext1").style.color = '#FFFFFF';
-    document.getElementById("imgtext2").style.color = '#5B5B5B';
-    document.getElementById("imgtext3").style.color = '#5B5B5B';
-    document.getElementById("imgtext4").style.color = '#5B5B5B';
-    document.getElementById("iconml-img").style.color = '#FFFFFF';
-    document.getElementById("iconml1-img").style.color = '#5B5B5B';
-    document.getElementById("iconml2-img").style.color = '#5B5B5B';
-    document.getElementById("iconml3-img").style.color = '#5B5B5B';
-    document.getElementById('sleep-column').className = 'col-xs-6 col-xl-3 col-lg-3 col-md-3 col-sm-6 sleep-value card-container';
-    document.getElementById('step-column').className = 'col-xs-6 col-xl-3 col-lg-3 col-md-3 col-sm-6 steps-value card-container';
-    document.getElementById('calories-column').className = 'col-xs-6 col-xl-3 col-lg-3 col-md-3 col-sm-6 calories-value card-container';
-    document.getElementById('water-column').className = 'col-xs-6 col-xl-3 col-lg-3 col-md-3 col-sm-6 water-valueactive card-container';
-    document.getElementById("multiple-donut").style.display = 'none';
-    document.getElementById("donut").style.display = 'none';
-    document.getElementById("semi-pie").style.display = 'none';
-    document.getElementById("polar").style.display = 'block';
-    document.getElementById('chart-header-title').innerHTML = '<span id="chart-title"> Water Consumption </span>';
-    document.getElementById('total-value').innerHTML = '<span id="title-annotation"> Target </span><span id="value-annotation" style="color: #3B61E9;"> 7 litres </span>';
-    document.getElementById("average-value").innerHTML = '<span id="title-annotation"> Daily Average </span><span id="value-annotation" style="color: #3B61E9;"> 4.32 litres </span>';
+    
+    const elements = {
+        water50ml: document.getElementById("water50ml-column"),
+        water100ml: document.getElementById("water100ml-column"),
+        water200ml: document.getElementById("water200ml-column"),
+        water300ml: document.getElementById("water300ml-column"),
+        imgtext1: document.getElementById("imgtext1"),
+        imgtext2: document.getElementById("imgtext2"),
+        imgtext3: document.getElementById("imgtext3"),
+        imgtext4: document.getElementById("imgtext4"),
+        iconml: document.getElementById("iconml-img"),
+        iconml1: document.getElementById("iconml1-img"),
+        iconml2: document.getElementById("iconml2-img"),
+        iconml3: document.getElementById("iconml3-img"),
+        sleepColumn: document.getElementById('sleep-column'),
+        stepColumn: document.getElementById('step-column'),
+        caloriesColumn: document.getElementById('calories-column'),
+        waterColumn: document.getElementById('water-column'),
+        multipleDonut: document.getElementById("multiple-donut"),
+        donut: document.getElementById("donut"),
+        semiPie: document.getElementById("semi-pie"),
+        polar: document.getElementById("polar"),
+        chartHeaderTitle: document.getElementById('chart-header-title'),
+        totalValue: document.getElementById('total-value'),
+        averageValue: document.getElementById("average-value")
+    };
+    
+    if (elements.water50ml) elements.water50ml.style.backgroundImage = 'linear-gradient(to right, #2140DC, #00BFD5)';
+    if (elements.water100ml) elements.water100ml.style.backgroundImage = 'none';
+    if (elements.water200ml) elements.water200ml.style.backgroundImage = 'none';
+    if (elements.water300ml) elements.water300ml.style.backgroundImage = 'none';
+    if (elements.water50ml) elements.water50ml.className = "col-xs-3 col-sm-3 col-md-3 col-lg-3 water50ml-columnactive";
+    if (elements.water100ml) elements.water100ml.className = "col-xs-3 col-sm-3 col-md-3 col-lg-3 water100ml-column";
+    if (elements.water200ml) elements.water200ml.className = "col-xs-3 col-sm-3 col-md-3 col-lg-3 water200ml-column";
+    if (elements.water300ml) elements.water300ml.className = "col-xs-3 col-sm-3 col-md-3 col-lg-3 water300ml-column";
+    if (elements.imgtext1) elements.imgtext1.style.color = '#FFFFFF';
+    if (elements.imgtext2) elements.imgtext2.style.color = '#5B5B5B';
+    if (elements.imgtext3) elements.imgtext3.style.color = '#5B5B5B';
+    if (elements.imgtext4) elements.imgtext4.style.color = '#5B5B5B';
+    if (elements.iconml) elements.iconml.style.color = '#FFFFFF';
+    if (elements.iconml1) elements.iconml1.style.color = '#5B5B5B';
+    if (elements.iconml2) elements.iconml2.style.color = '#5B5B5B';
+    if (elements.iconml3) elements.iconml3.style.color = '#5B5B5B';
+    if (elements.sleepColumn) elements.sleepColumn.className = 'col-xs-6 col-xl-3 col-lg-3 col-md-3 col-sm-6 sleep-value card-container';
+    if (elements.stepColumn) elements.stepColumn.className = 'col-xs-6 col-xl-3 col-lg-3 col-md-3 col-sm-6 steps-value card-container';
+    if (elements.caloriesColumn) elements.caloriesColumn.className = 'col-xs-6 col-xl-3 col-lg-3 col-md-3 col-sm-6 calories-value card-container';
+    if (elements.waterColumn) elements.waterColumn.className = 'col-xs-6 col-xl-3 col-lg-3 col-md-3 col-sm-6 water-valueactive card-container';
+    if (elements.multipleDonut) elements.multipleDonut.style.display = 'none';
+    if (elements.donut) elements.donut.style.display = 'none';
+    if (elements.semiPie) elements.semiPie.style.display = 'none';
+    if (elements.polar) elements.polar.style.display = 'block';
+    if (elements.chartHeaderTitle) elements.chartHeaderTitle.innerHTML = '<span id="chart-title"> Water Consumption </span>';
+    if (elements.totalValue) elements.totalValue.innerHTML = '<span id="title-annotation"> Target </span><span id="value-annotation" style="color: #3B61E9;"> 7 litres </span>';
+    if (elements.averageValue) elements.averageValue.innerHTML = '<span id="title-annotation"> Daily Average </span><span id="value-annotation" style="color: #3B61E9;"> 4.32 litres </span>';
     LoadChartData("water");
 }
 
 function stepclick(): void {
     annotation = true;
     ToggleVisibility('block', 'none');
-    document.getElementById('sleep-column').className = 'col-xs-6 col-xl-3 col-lg-3 col-md-3 col-sm-6 sleep-value card-container';
-    document.getElementById('step-column').className = 'col-xs-6 col-xl-3 col-lg-3 col-md-3 col-sm-6 steps-valueactive card-container';
-    document.getElementById('calories-column').className = 'col-xs-6 col-xl-3 col-lg-3 col-md-3 col-sm-6 calories-value card-container';
-    document.getElementById('water-column').className = 'col-xs-6 col-xl-3 col-lg-3 col-md-3 col-sm-6 water-value card-container';
-    document.getElementById("multiple-donut").style.display = 'block';
-    document.getElementById("donut").style.display = 'none';
-    document.getElementById("semi-pie").style.display = 'none';
-    document.getElementById("polar").style.display = 'none';
-    document.getElementById('chart-header-title').innerHTML = '<span id="chart-title"> Steps Taken </span>';
-	document.getElementById('total-value').innerHTML = '<span id="title-annotation"> Distance Travelled </span><span id="value-annotation" style="color:#05AD13"> 3.2 miles </span>';
-	document.getElementById("average-value").innerHTML = '';
+    
+    const elements = {
+        sleepColumn: document.getElementById('sleep-column'),
+        stepColumn: document.getElementById('step-column'),
+        caloriesColumn: document.getElementById('calories-column'),
+        waterColumn: document.getElementById('water-column'),
+        multipleDonut: document.getElementById("multiple-donut"),
+        donut: document.getElementById("donut"),
+        semiPie: document.getElementById("semi-pie"),
+        polar: document.getElementById("polar"),
+        chartHeaderTitle: document.getElementById('chart-header-title'),
+        totalValue: document.getElementById('total-value'),
+        averageValue: document.getElementById("average-value")
+    };
+    
+    if (elements.sleepColumn) elements.sleepColumn.className = 'col-xs-6 col-xl-3 col-lg-3 col-md-3 col-sm-6 sleep-value card-container';
+    if (elements.stepColumn) elements.stepColumn.className = 'col-xs-6 col-xl-3 col-lg-3 col-md-3 col-sm-6 steps-valueactive card-container';
+    if (elements.caloriesColumn) elements.caloriesColumn.className = 'col-xs-6 col-xl-3 col-lg-3 col-md-3 col-sm-6 calories-value card-container';
+    if (elements.waterColumn) elements.waterColumn.className = 'col-xs-6 col-xl-3 col-lg-3 col-md-3 col-sm-6 water-value card-container';
+    if (elements.multipleDonut) elements.multipleDonut.style.display = 'block';
+    if (elements.donut) elements.donut.style.display = 'none';
+    if (elements.semiPie) elements.semiPie.style.display = 'none';
+    if (elements.polar) elements.polar.style.display = 'none';
+    if (elements.chartHeaderTitle) elements.chartHeaderTitle.innerHTML = '<span id="chart-title"> Steps Taken </span>';
+    if (elements.totalValue) elements.totalValue.innerHTML = '<span id="title-annotation"> Distance Travelled </span><span id="value-annotation" style="color:#05AD13"> 3.2 miles </span>';
+    if (elements.averageValue) elements.averageValue.innerHTML = '';
     LoadChartData("steps");
 }
 
 function sleepclick() {
     annotation = false;
     ToggleVisibility('block', 'none');
-    document.getElementById('sleep-column').className = 'col-xs-6 col-xl-3 col-lg-3 col-md-3 col-sm-6 sleep-valueactive card-container';
-    document.getElementById('step-column').className = 'col-xs-6 col-xl-3 col-lg-3 col-md-3 col-sm-6 steps-value card-container';
-    document.getElementById('calories-column').className = 'col-xs-6 col-xl-3 col-lg-3 col-md-3 col-sm-6 calories-value card-container';
-    document.getElementById('water-column').className = 'col-xs-6 col-xl-3 col-lg-3 col-md-3 col-sm-6 water-value card-container';
-    document.getElementById("multiple-donut").style.display = 'none';
-    document.getElementById("donut").style.display = 'none';
-    document.getElementById("semi-pie").style.display = 'block';
-    document.getElementById("polar").style.display = 'none';
-    document.getElementById('chart-header-title').innerHTML = '<span id="chart-title"> Sleep Tracker </span>';
-    document.getElementById('total-value').innerHTML = '<span id="title-annotation"> Goal </span><span id="value-annotation" style="color:#4526A6"> 7.2 hrs </span>';
-    document.getElementById("average-value").innerHTML = '<span id="title-annotation"> Daily Average </span><span id="value-annotation" style="color:#4526A6"> 6.32 hrs </span>';
+    
+    const elements = {
+        sleepColumn: document.getElementById('sleep-column'),
+        stepColumn: document.getElementById('step-column'),
+        caloriesColumn: document.getElementById('calories-column'),
+        waterColumn: document.getElementById('water-column'),
+        multipleDonut: document.getElementById("multiple-donut"),
+        donut: document.getElementById("donut"),
+        semiPie: document.getElementById("semi-pie"),
+        polar: document.getElementById("polar"),
+        chartHeaderTitle: document.getElementById('chart-header-title'),
+        totalValue: document.getElementById('total-value'),
+        averageValue: document.getElementById("average-value")
+    };
+    
+    if (elements.sleepColumn) elements.sleepColumn.className = 'col-xs-6 col-xl-3 col-lg-3 col-md-3 col-sm-6 sleep-valueactive card-container';
+    if (elements.stepColumn) elements.stepColumn.className = 'col-xs-6 col-xl-3 col-lg-3 col-md-3 col-sm-6 steps-value card-container';
+    if (elements.caloriesColumn) elements.caloriesColumn.className = 'col-xs-6 col-xl-3 col-lg-3 col-md-3 col-sm-6 calories-value card-container';
+    if (elements.waterColumn) elements.waterColumn.className = 'col-xs-6 col-xl-3 col-lg-3 col-md-3 col-sm-6 water-value card-container';
+    if (elements.multipleDonut) elements.multipleDonut.style.display = 'none';
+    if (elements.donut) elements.donut.style.display = 'none';
+    if (elements.semiPie) elements.semiPie.style.display = 'block';
+    if (elements.polar) elements.polar.style.display = 'none';
+    if (elements.chartHeaderTitle) elements.chartHeaderTitle.innerHTML = '<span id="chart-title"> Sleep Tracker </span>';
+    if (elements.totalValue) elements.totalValue.innerHTML = '<span id="title-annotation"> Goal </span><span id="value-annotation" style="color:#4526A6"> 7.2 hrs </span>';
+    if (elements.averageValue) elements.averageValue.innerHTML = '<span id="title-annotation"> Daily Average </span><span id="value-annotation" style="color:#4526A6"> 6.32 hrs </span>';
     LoadChartData("sleep");
-
 }
 
 function caloriesclick() {
     annotation = false;
     ToggleVisibility('block', 'none');
-    document.getElementById('sleep-column').className = 'col-xs-6 col-xl-3 col-lg-3 col-md-3 col-sm-6 sleep-value card-container';
-    document.getElementById('step-column').className = 'col-xs-6 col-xl-3 col-lg-3 col-md-3 col-sm-6 steps-value card-container';
-    document.getElementById('calories-column').className = 'col-xs-6 col-xl-3 col-lg-3 col-md-3 col-sm-6 calories-valueactive card-container';
-    document.getElementById('water-column').className = 'col-xs-6 col-xl-3 col-lg-3 col-md-3 col-sm-6 water-value card-container';
-    document.getElementById("multiple-donut").style.display = 'none';
-    document.getElementById("donut").style.display = 'block';
-    document.getElementById("semi-pie").style.display = 'none';
-    document.getElementById("polar").style.display = 'none';
-    document.getElementById('chart-header-title').innerHTML = '<span id="chart-title"> Calories Consumed </span>';
-    document.getElementById('total-value').innerHTML = '<span id="title-annotation"> Total </span><span id="value-annotation" style="color:#780508">1437 Kcal</span>';
-    document.getElementById("average-value").innerHTML = '<span id="title-annotation"> Daily Average </span><span id="value-annotation" style="color:#DB4247"> 902 Kcal </span>';
+    
+    const elements = {
+        sleepColumn: document.getElementById('sleep-column'),
+        stepColumn: document.getElementById('step-column'),
+        caloriesColumn: document.getElementById('calories-column'),
+        waterColumn: document.getElementById('water-column'),
+        multipleDonut: document.getElementById("multiple-donut"),
+        donut: document.getElementById("donut"),
+        semiPie: document.getElementById("semi-pie"),
+        polar: document.getElementById("polar"),
+        chartHeaderTitle: document.getElementById('chart-header-title'),
+        totalValue: document.getElementById('total-value'),
+        averageValue: document.getElementById("average-value")
+    };
+    
+    if (elements.sleepColumn) elements.sleepColumn.className = 'col-xs-6 col-xl-3 col-lg-3 col-md-3 col-sm-6 sleep-value card-container';
+    if (elements.stepColumn) elements.stepColumn.className = 'col-xs-6 col-xl-3 col-lg-3 col-md-3 col-sm-6 steps-value card-container';
+    if (elements.caloriesColumn) elements.caloriesColumn.className = 'col-xs-6 col-xl-3 col-lg-3 col-md-3 col-sm-6 calories-valueactive card-container';
+    if (elements.waterColumn) elements.waterColumn.className = 'col-xs-6 col-xl-3 col-lg-3 col-md-3 col-sm-6 water-value card-container';
+    if (elements.multipleDonut) elements.multipleDonut.style.display = 'none';
+    if (elements.donut) elements.donut.style.display = 'block';
+    if (elements.semiPie) elements.semiPie.style.display = 'none';
+    if (elements.polar) elements.polar.style.display = 'none';
+    if (elements.chartHeaderTitle) elements.chartHeaderTitle.innerHTML = '<span id="chart-title"> Calories Consumed </span>';
+    if (elements.totalValue) elements.totalValue.innerHTML = '<span id="title-annotation"> Total </span><span id="value-annotation" style="color:#780508">1437 Kcal</span>';
+    if (elements.averageValue) elements.averageValue.innerHTML = '<span id="title-annotation"> Daily Average </span><span id="value-annotation" style="color:#DB4247"> 902 Kcal </span>';
     LoadChartData("calorie");
 }

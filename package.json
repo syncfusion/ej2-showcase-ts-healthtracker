@@ -11,13 +11,13 @@
     "author": "Syncfusion Inc.",
     "license": "SEE LICENSE IN license",
     "devDependencies": {
-        "@syncfusion/ej2-showcase-helper": "*",
         "@types/crossroads": "^0.0.30",
         "@types/hasher": "^0.0.32",
         "copy-webpack-plugin": "^11.0.0",
         "crossroads": "^0.12.2",
         "css-loader": "^6.8.1",
         "file-loader": "^6.2.0",
+        "glob": "^10.3.3",
         "hasher": "^1.2.0",
         "html-webpack-plugin": "^5.5.3",
         "mini-css-extract-plugin": "^2.7.6",
@@ -29,7 +29,7 @@
         "typescript": "^5.1.6",
         "webpack": "^5.88.1",
         "webpack-cli": "^5.1.4",
-        "webpack-dev-server": "^4.15.1"
+        "webpack-dev-server": "^5.2.1"
     },
     "dependencies": {
         "@syncfusion/ej2-base": "*",

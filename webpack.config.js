@@ -6,9 +6,7 @@ const path = require("path");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 
 module.exports = {
-  entry: {
-    index: glob.sync("./src/**/*.ts")
-  },
+  entry: "./src/index.ts",
   target: "web",
   module: {
     rules: [
@@ -35,6 +33,8 @@ module.exports = {
               sassOptions: {
                 // If you utilize the syncfusion sass files, then use the following line
                 includePaths: ["node_modules/@syncfusion"],
+                // Suppress deprecation warnings
+                silenceDeprecations: ['legacy-js-api', 'import']
               },
             },
           },
